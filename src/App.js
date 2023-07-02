@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Home from "./component/Home"
+import Login from "./component/Login"
+import Navbar from "./component/Navbar"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Signup from "./component/Signup"
+import Forgetpassword from "./component/Forgetpassword"
+import ThemeContext from "./context/ThemeContext"
+import { useState } from "react"
+// import function to register Swiper custom elements
+import { register } from 'swiper/element/bundle';
+import Alert from "./component/Alert"
+import TodaysDeal from "./component/TodaysDeal"
+import Footer from "./component/Footer"
+// register Swiper custom elements
+register();
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') == null ? 'light':localStorage.getItem('theme') )
+  setTimeout(()=>{
+
+  },4000)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={'theme-'+theme}>
+      <ThemeContext.Provider value={{theme,setTheme}}>
+        <Router>
+          <Navbar />
+          <Alert message={"logged in successfully"}/>
+          <Routes>
+            <Route exact path="/" element={<Home />}></Route>
+            <Route exact path="/login" element={<Login />}></Route>
+            <Route exact path="/signUp" element={<Signup />}></Route>
+            <Route
+              exact
+              path="/forgetPassword"
+              element={<Forgetpassword />}
+            ></Route>
+            <Route exact path="/todaysDeal" element={<TodaysDeal/>}></Route>
+          </Routes>
+          <Footer/>
+        </Router>
+      </ThemeContext.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
