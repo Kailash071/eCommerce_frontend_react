@@ -16,14 +16,14 @@ import AlertContext from "./context/AlertContext"
 register();
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') == null ? 'light':localStorage.getItem('theme') )
-  const [alert,setAlert] = useState({success:false,message:''})
+  const [alert,setAlert] = useState({show:false,message:''})
   return (
     <div className={'theme-'+theme}>
       <ThemeContext.Provider value={{theme,setTheme}}>
         <AlertContext.Provider value={{alert,setAlert}}>
         <Router>
           <Navbar />
-            {alert.success &&  <Alert message={alert.message}/>} 
+            {alert.show &&  <Alert message={alert.message}/>} 
           <Routes>
             <Route exact path="/" element={<Home />}></Route>
             <Route exact path="/login" element={<Login />}></Route>

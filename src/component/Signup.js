@@ -17,14 +17,14 @@ function Signup(props) {
     await axios.post(`${process.env.REACT_APP_NODE_BASE_URL}/register`,inputs).then((response)=>{
       if(response.data.success){
         console.log('response.data',response.data)
-       setAlert({success:response.data.success,message:response.data.message})
+       setAlert({show:true,message:response.data.message})
        setTimeout(()=>{return navigate('/login')},4000)
       }else  {
-        setAlert({success:response.data.success,message:response.data.message}) 
+        setAlert({show:true,message:response.data.message}) 
       }
     }).catch((error)=>{
       console.log(`Error occured while registering ${error}`)
-      setAlert({success:false,message:error})
+      setAlert({show:true,message:error})
     })
     setInputs(formInitialValue)
   }

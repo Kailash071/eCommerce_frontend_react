@@ -7,7 +7,7 @@ function Alert(props) {
   const [alertVisiblity, setalertVisiblity] = useState("show")
   setTimeout(()=>{
     setalertVisiblity("hide")
-    setAlert({success:false,message:''})
+    setAlert({show:false,message:''})
   },4000)
   return (
     <div

@@ -1,6 +1,34 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import {React,useState,useContext} from "react"
+import { Link,useNavigate } from "react-router-dom"
+import axios from "axios"
+import AlertContext from "../context/AlertContext"
 function Login() {
+  const formInitialValue = {email:'',password:''}
+  const [loginFormInputs, setLoginFormInputs] = useState(formInitialValue)
+  const {setAlert} = useContext(AlertContext)
+  const navigate = useNavigate();
+  const handleInputChange = (e)=>{
+    e.preventDefault()
+    setLoginFormInputs({...loginFormInputs,[e.target.name]:e.target.value})
+  }
+  const handleLoginSubmit =async (e)=>{
+    e.preventDefault()
+    console.log("Form submitted successfully",loginFormInputs)
+    await axios.post(`${process.env.REACT_APP_NODE_BASE_URL}/login`,loginFormInputs).then((response)=>{
+      console.log('response.data',response.data)
+      if(response.data.success){
+       setAlert({show:true,message:response.data.message})
+       setTimeout(()=>{return navigate('/')},4000)
+      }else{
+        console.log('login failed')
+        setAlert({show:true,message:response.data.message}) 
+      }
+    }).catch((error)=>{
+      console.log(`Error occured while registering ${error}`)
+      setAlert({show:true,message:error})
+    })
+    setLoginFormInputs(formInitialValue)
+  }
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center my-5">
       <div className="shadow-lg rounded p-3">
@@ -9,27 +37,29 @@ function Login() {
         </div>
         <form>
           <div className="mb-2">
-            <label htmlFor="exampleInputEmail1" className="form-label">
+            <label htmlFor="email" className="form-label">
               Email address
             </label>
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp" placeholder="Email"
+              id="email"
+              aria-describedby="emailHelp" placeholder="Email" name="email"
+              value={loginFormInputs.email} onChange={handleInputChange}
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
             </div>
           </div>
           <div className="mb-2">
-            <label htmlFor="exampleInputPassword1" className="form-label">
+            <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1" placeholder="Password"
+              id="password" placeholder="Password" name="password"
+              value={loginFormInputs.password} onChange={handleInputChange}
             />
           </div>
         <div className="d-flex justify-content-between" >
@@ -48,7 +78,7 @@ function Login() {
           </div>
         </div>
           <div className="row px-2">
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" onClick={handleLoginSubmit} className="btn btn-primary ">
               Login
             </button>
           </div>
