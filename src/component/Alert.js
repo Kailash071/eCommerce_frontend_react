@@ -1,10 +1,13 @@
 import {React,useContext,useState} from "react"
 import ThemeContext from "../context/ThemeContext"
+import AlertContext from "../context/AlertContext"
 function Alert(props) {
   let{ theme }= useContext(ThemeContext)
+  const {setAlert} = useContext(AlertContext)
   const [alertVisiblity, setalertVisiblity] = useState("show")
   setTimeout(()=>{
     setalertVisiblity("hide")
+    setAlert({success:false,message:''})
   },4000)
   return (
     <div

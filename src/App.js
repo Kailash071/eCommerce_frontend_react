@@ -11,19 +11,19 @@ import { register } from 'swiper/element/bundle';
 import Alert from "./component/Alert"
 import TodaysDeal from "./component/TodaysDeal"
 import Footer from "./component/Footer"
+import AlertContext from "./context/AlertContext"
 // register Swiper custom elements
 register();
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') == null ? 'light':localStorage.getItem('theme') )
-  setTimeout(()=>{
-
-  },4000)
+  const [alert,setAlert] = useState({success:false,message:''})
   return (
     <div className={'theme-'+theme}>
       <ThemeContext.Provider value={{theme,setTheme}}>
+        <AlertContext.Provider value={{alert,setAlert}}>
         <Router>
           <Navbar />
-          <Alert message={"logged in successfully"}/>
+            {alert.success &&  <Alert message={alert.message}/>} 
           <Routes>
             <Route exact path="/" element={<Home />}></Route>
             <Route exact path="/login" element={<Login />}></Route>
@@ -37,6 +37,7 @@ function App() {
           </Routes>
           <Footer/>
         </Router>
+        </AlertContext.Provider>
       </ThemeContext.Provider>
     </div>
   )
