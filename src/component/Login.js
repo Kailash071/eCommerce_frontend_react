@@ -2,10 +2,12 @@ import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
 import axios from "axios"
 import AlertContext from "../context/AlertContext"
+import AuthContext from "../context/AuthContext"
 function Login() {
   const formInitialValue = {email:'',password:''}
   const [loginFormInputs, setLoginFormInputs] = useState(formInitialValue)
   const {setAlert} = useContext(AlertContext)
+  let {setUserAuth} = useContext(AuthContext)
   const navigate = useNavigate();
   const handleInputChange = (e)=>{
     e.preventDefault()
@@ -17,15 +19,18 @@ function Login() {
     await axios.post(`${process.env.REACT_APP_NODE_BASE_URL}/login`,loginFormInputs).then((response)=>{
       console.log('response.data',response.data)
       if(response.data.success){
+        localStorage.setItem('userInfo', response.data.data.user)
+        setUserAuth(response.data.data.user)
+        localStorage.setItem('userToken', response.data.data.userToken)
        setAlert({show:true,message:response.data.message})
-       setTimeout(()=>{return navigate('/')},4000)
+       return navigate('/')
       }else{
         console.log('login failed')
         setAlert({show:true,message:response.data.message}) 
       }
     }).catch((error)=>{
       console.log(`Error occured while registering ${error}`)
-      setAlert({show:true,message:error})
+      setAlert({show:true,message:'server error'})
     })
     setLoginFormInputs(formInitialValue)
   }

@@ -1,8 +1,10 @@
 import React, {useContext } from "react"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import ThemeContext from "../context/ThemeContext"
+import AuthContext from "../context/AuthContext"
 function Navbar() {
     let{ theme,setTheme }= useContext(ThemeContext)
+    let {userAuth, setUserAuth} = useContext(AuthContext)
 //   const [theme, setTheme] = useState("light")
   const themeChange = () => {
     if (theme === "light") {
@@ -15,12 +17,16 @@ function Navbar() {
       localStorage.setItem('theme','light')
     }
   }
+  const handleLogout = ()=>{
+    localStorage.setItem('userInfo',null)
+    setUserAuth(null)
+  }
   return (
     <nav className={`navbar navbar-expand-lg  sticky-top bg-`+theme} data-bs-theme={theme}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <NavLink className="navbar-brand" to="/">
           ShopNow
-        </Link>
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -35,17 +41,22 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
+              <NavLink className="nav-link active" aria-current="page" to="/">
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/todaysDeal">
+              <NavLink className="nav-link" to="/todaysDeal">
                 Today's Deal
-              </Link>
+              </NavLink>
             </li>
-            <li className="nav-item dropdown">
-              <Link
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/products">
+                Products
+              </NavLink>
+            </li>
+            {/* <li className="nav-item dropdown">
+              <NavLink
                 className="nav-link dropdown-toggle"
                 to="#"
                 role="button"
@@ -53,56 +64,75 @@ function Navbar() {
                 aria-expanded="false"
               >
                 Category
-              </Link>
+              </NavLink>
               <ul className="dropdown-menu">
                 <li>
-                  <Link className="dropdown-item" to="/furnitures">
+                  <NavLink className="dropdown-item" to="/furnitures">
                     Furnitures
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/clothings">
+                  <NavLink className="dropdown-item" to="/clothings">
                     Clothings
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/electronics">
+                  <NavLink className="dropdown-item" to="/electronics">
                     Electronics
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
-            </li>
+            </li> */}
             <li className="nav-item">
-              <Link className="nav-link" to="/newRelease">
+              <NavLink className="nav-link" to="/newRelease">
                 New Release
-              </Link>
+              </NavLink>
             </li>
           </ul>
 
-
-          <div className="d-flex flex-wrap">
-            <Link to="/login" className="btn btn-sm btn-outline-primary mx-1">
+         
+          {!userAuth && <div className="d-flex flex-wrap">
+            <NavLink to="/login" className="btn btn-sm btn-outline-primary mx-1">
               Login
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/signUp"
               className="btn btn-sm btn-outline-secondary mx-1"
             >
               Create Account
-            </Link>
-          </div>
+            </NavLink>
+
+          </div>}
+          {userAuth && <div>
+          <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
+              Logout
+            </NavLink>
+          </div>}
           <div className="mx-2 my-1" onClick={themeChange}>
             {theme === "light" ? (
               <i className="bi bi-moon text-dark" id="lightMode"></i>
             ) : (
                 <i className="bi bi-sun-fill text-light" id="darkMode"></i>
             )}
+          </div>
+          <div className="mx-2 my-1">
+            <NavLink to="/cart">
+            <button  type="button" className="btn btn-sm position-relative">
+              <span>
+              <i className="bi bi-cart-dash-fill"></i>
+              </span>
+              <span className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark`}>
+                0
+                <span className="visually-hidden"></span>
+              </span>
+            </button>
+            </NavLink>
           </div>
         </div>
       </div>

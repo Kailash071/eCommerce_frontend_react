@@ -24,7 +24,7 @@ function Signup(props) {
       }
     }).catch((error)=>{
       console.log(`Error occured while registering ${error}`)
-      setAlert({show:true,message:error})
+      setAlert({show:true,message:'server error'})
     })
     setInputs(formInitialValue)
   }
