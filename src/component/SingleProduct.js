@@ -5,12 +5,13 @@ import FormatPrice from './FormatPrice';
 const API = "https://fakestoreapi.com/products";
 function SingleProduct() {
     const {productId} = useParams()
-  const { isSingleLoading, getSingleProduct,singleProduct} = useProduct();
+  const { isSingleLoading, singleProduct,getSingleProduct} = useProduct();
+  console.log('`${API}/${productId}`',`${API}/${productId}`)
+  console.log(singleProduct)
+  useEffect(()=>{
+    getSingleProduct(`${API}/${productId}`);
+  },[productId])
   const {  title, rating, price,description, category, image } = singleProduct
-   
-    useEffect(()=>{
-        getSingleProduct(`${API}/${productId}`);
-    },[productId])
   return (
     <>
     {isSingleLoading &&  <div>Loading...</div>}
@@ -30,7 +31,7 @@ function SingleProduct() {
             </div>
             <div className="d-flex flex-nowrap">
                 <p className="card-text text-truncate w-75">{description}</p>
-                <p className="card-text ">{rating.rate}<span><i className="bi bi-star-fill"></i> </span></p>
+                <p className="card-text ">{}<span><i className="bi bi-star-fill"></i> </span></p>
             </div>
           </div>
         </div>

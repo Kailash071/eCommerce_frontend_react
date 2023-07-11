@@ -41,7 +41,7 @@ const ProductProvider = ({children})=>{
         getProducts(API);
     },[])
     return (
-        <productContext.Provider value={{...state,getSingleProduct}}>
+        <productContext.Provider value={{...state,getSingleProduct,getProducts}}>
             { children }
         </productContext.Provider>
     )

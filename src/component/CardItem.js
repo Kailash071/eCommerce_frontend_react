@@ -17,8 +17,8 @@ function CardItem(props) {
            {props.description}
           </p>
           <div className="d-flex justify-content-start align-items-center">
-            <button className="btn btn-sm btn-primary mx-1">Buy Now <span><i class="bi bi-bag"></i></span></button>
-            <button className="btn btn-sm btn-secondary">Add To Cart <span><i class="bi bi-cart"></i></span></button>
+            <button className="btn btn-sm btn-primary mx-1">Buy Now <span><i className="bi bi-bag"></i></span></button>
+            <button className="btn btn-sm btn-secondary">Add To Cart <span><i className="bi bi-cart"></i></span></button>
           </div>
         </div>
       </div>
