@@ -6,8 +6,9 @@ function Product(props) {
   const { id, title, rating, price,description, category, image } = props
   return (
     <>
+         <div className="col-6 col-lg-2 col-md-2 col-sm-3 " >
       <NavLink to={`/singleproduct/${id}`}>
-        <div className="card" style={{ width: "200px" }}>
+        <div className="card" >
           <div className="text-center mt-1">
             <img
               src={image}
@@ -28,6 +29,7 @@ function Product(props) {
           </div>
         </div>
       </NavLink>
+      </div>
     </>
   )
 }
