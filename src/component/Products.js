@@ -11,7 +11,7 @@ function Products() {
     <div >
     {/* filter */}
     </div>
-      <div className="product d-flex justify-content-center align-items-center   flex-wrap gap-2 ">
+      <div className="product row g-2">
         {products &&
           products.map((product) => { return <Product key={product.id} {...product} /> })}
       </div>
