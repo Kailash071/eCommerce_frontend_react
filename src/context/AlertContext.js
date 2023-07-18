@@ -1,4 +1,4 @@
 import {createContext} from 'react'
 
-const AlertContext = createContext({success:false,message:''});
+const AlertContext = createContext({show:false,message:''});
 export default AlertContext
