@@ -1,33 +1,27 @@
-import {React,useEffect} from 'react'
+import {React} from 'react'
 import { useParams } from 'react-router-dom'
 import FormatPrice from './FormatPrice';
-import {setSingleError,setSingleLoading,setSingleProducts} from '../redux/productRedux';
-import axios from "axios"
-import { useDispatch,useSelector } from 'react-redux';
-const API = "https://fakestoreapi.com/products";
+import { useGetProductsQuery } from '../reducers/productsSlice';
+
 function SingleProduct() {
      const {productId} = useParams()
-     console.log('params id',productId)
-  const dispatch = useDispatch()
-  async function  getProductData(url){
-    dispatch(setSingleLoading)
-    try {
-        let products = await axios.get(url)
-        dispatch(setSingleProducts(products.data))
-    } catch (error) {
-        dispatch(setSingleError)
-    }
-  }
-  useEffect(()=>{
-    getProductData(`${API}/${productId}`)
-  },[])
-  const product = useSelector((state)=>state.indexRedux.productRedux.singleProduct)
-  const isSingleLoading = useSelector((state)=>state.indexRedux.productRedux.singleLoading)
+    //  console.log('params id',productId)
+     const {product,isLoading} = useGetProductsQuery('getProducts',{
+      selectFromResult:({data})=>({
+        product:data?.entities[productId],
+        // isLoading
+      })
+    }) 
   console.log('single product',product)
+  // if(isLoading){
+  //   return(<p>Loading...</p>)
+  // }
+  if(!product){
+    return (<p>{`No Product with ID ${productId}`}</p>);
+  }
   return (
     <>
-    {isSingleLoading &&  <div>Loading...</div>}
-    <div className="card" style={{ width: "200px" }}>
+    {product &&     <div className="card" style={{ width: "200px" }}>
           <div className="text-center mt-1">
             <img
               src={product.image}
@@ -46,7 +40,7 @@ function SingleProduct() {
                 <p className="card-text ">{product.rating.rate}<span><i className="bi bi-star-fill"></i> </span></p>
             </div>
           </div>
-        </div>
+        </div>}
     </>
   )
 }

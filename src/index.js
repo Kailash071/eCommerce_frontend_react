@@ -5,7 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from "./store"
 import { Provider } from "react-redux"
+import { productsApiSlice } from './reducers/productsSlice';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+store.dispatch(productsApiSlice.endpoints.getProducts.initiate())
 root.render(
   <React.StrictMode>
     <Provider store={store}>

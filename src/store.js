@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
-import indexRedux from './redux/indexRedux'
-
+import { configureStore } from "@reduxjs/toolkit"
+import { apiSlice } from "./api/apiSlice"
+import { setupListeners } from "@reduxjs/toolkit/dist/query"
 
 export const store = configureStore({
   reducer: {
-   indexRedux
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true,
 })
-console.log('state from store',store.getState())
+setupListeners(store.dispatch)
