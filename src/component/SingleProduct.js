@@ -6,7 +6,7 @@ import { useGetProductsQuery } from '../reducers/productsSlice';
 function SingleProduct() {
      const {productId} = useParams()
     //  console.log('params id',productId)
-     const {product,isLoading} = useGetProductsQuery('getProducts',{
+     const {product} = useGetProductsQuery('getProducts',{
       selectFromResult:({data})=>({
         product:data?.entities[productId],
         // isLoading
@@ -37,7 +37,7 @@ function SingleProduct() {
             </div>
             <div className="d-flex flex-nowrap">
                 <p className="card-text text-truncate w-75">{product.description}</p>
-                <p className="card-text ">{product.rating.rate}<span><i className="bi bi-star-fill"></i> </span></p>
+                <p className="card-text ">{product.rating}<span><i className="bi bi-star-fill"></i> </span></p>
             </div>
           </div>
         </div>}

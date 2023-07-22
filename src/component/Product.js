@@ -10,7 +10,7 @@ function Product({productId}) {
       product:data?.entities[productId]
     })
   }) 
-  // console.log('product',product)
+  console.log('product',product)
   return (
     <>
          <div className="col-6 col-lg-2 col-md-2 col-sm-3 " >
@@ -31,7 +31,7 @@ function Product({productId}) {
             </div>
             <div className="d-flex flex-nowrap">
                 <p className="card-text text-truncate w-75">{product.description}</p>
-                <p className="card-text ">{product.rating.rate}<span><i className="bi bi-star-fill"></i> </span></p>
+                <p className="card-text ">{product.rating}<span><i className="bi bi-star-fill"></i> </span></p>
             </div>
           </div>
         </div>

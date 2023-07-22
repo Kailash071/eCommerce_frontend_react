@@ -5,7 +5,7 @@ import { useGetProductsQuery } from "../reducers/productsSlice"
 // const API = "https://fakestoreapi.com/products";
 function Products() {
   const {data:products,isLoading,isSuccess,isError,error} = useGetProductsQuery('getProducts')
-  // console.log('products',products)
+  console.log('products',products)
   let content;
   if(isLoading){
     content = <p>Loading...</p>

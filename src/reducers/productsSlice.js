@@ -9,7 +9,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         getProducts:builder.query({
             query:()=> '/products',
             transformResponse : (response) => {
-                return productsAdapter.setAll(initialState,response)
+                console.log('response products',response)
+                let products = response.map(product=>{
+                    product.id = product._id;
+                    return product
+                })
+                return productsAdapter.setAll(initialState,products)
             },
             providesTags:(result,error,arg)=>[
                 {type:'Products',id:'LIST'},
