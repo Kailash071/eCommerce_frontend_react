@@ -1,31 +1,36 @@
 import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
-import axios from "axios"
 import AlertContext from "../context/AlertContext"
+import { useRegisterMutation } from "../reducers/userSlice"
 function Signup(props) {
   const formInitialValue = {name: "",email:"",phoneNumber:"",password:""}
    const [inputs, setInputs] = useState(formInitialValue)
+   const [register,isLoading] = useRegisterMutation()
    const {setAlert} = useContext(AlertContext)
    const navigate = useNavigate();
+   const canRegister = Object.values(inputs).every(Boolean)
   const handleInputChange = (e)=>{
     e.preventDefault()
     setInputs({...inputs,[e.target.name]:e.target.value})
+    // console.log('canRegister',canRegister)
   }
+
   const handleRegisterSubmit = async (e)=>{
     e.preventDefault();
-    console.log("Form submitted successfully",inputs)
-    await axios.post(`${process.env.REACT_APP_NODE_BASE_URL}/register`,inputs).then((response)=>{
-      if(response.data.success){
-        console.log('response.data',response.data)
-       setAlert({show:true,message:response.data.message})
-       setTimeout(()=>{return navigate('/login')},4000)
-      }else  {
-        setAlert({show:true,message:response.data.message}) 
-      }
-    }).catch((error)=>{
-      console.log(`Error occured while registering ${error}`)
-      setAlert({show:true,message:'server error'})
-    })
+    // console.log("Form submitted successfully",inputs)
+    // console.log('canRegister',canRegister)
+    if(canRegister){
+     const registerResult =  await register(inputs)
+     console.log('registerResult',registerResult.data)
+     if(registerResult.data.success){
+       setAlert({show:true,message:registerResult.data.message})
+       setTimeout(()=>{navigate('/login')},2000)
+     }else{
+      setAlert({show:true,message:registerResult.data.message})
+     }
+    }else{
+      setAlert({show:true,message:"Please fill all fields"})
+    }
     setInputs(formInitialValue)
   }
   return (
@@ -98,7 +103,7 @@ function Signup(props) {
             />
           </div>
           <div className="row px-2">
-            <button onClick={handleRegisterSubmit} className="btn btn-primary ">
+            <button onClick={handleRegisterSubmit} disabled={!canRegister || !isLoading} className="btn btn-primary ">
               Register
             </button>
           </div>
