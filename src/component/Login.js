@@ -1,14 +1,17 @@
 import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
-import axios from "axios"
 import AlertContext from "../context/AlertContext"
-import AuthContext from "../context/AuthContext"
+import { useLoginMutation } from "../reducers/userSlice"
+import { setUserData } from "../reducers/userReducer"
+import { useDispatch } from "react-redux"
 function Login() {
   const formInitialValue = {email:'',password:''}
   const [loginFormInputs, setLoginFormInputs] = useState(formInitialValue)
   const {setAlert} = useContext(AlertContext)
-  let {setUserAuth} = useContext(AuthContext)
+  const [login,isLoading] = useLoginMutation()
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+  const canLogin = Object.values(loginFormInputs).every(Boolean)
   const handleInputChange = (e)=>{
     e.preventDefault()
     setLoginFormInputs({...loginFormInputs,[e.target.name]:e.target.value})
@@ -16,22 +19,19 @@ function Login() {
   const handleLoginSubmit =async (e)=>{
     e.preventDefault()
     console.log("Form submitted successfully",loginFormInputs)
-    await axios.post(`${process.env.REACT_APP_NODE_BASE_URL}/login`,loginFormInputs).then((response)=>{
-      console.log('response.data',response.data)
-      if(response.data.success){
-        localStorage.setItem('userInfo', response.data.data.user)
-        setUserAuth(response.data.data.user)
-        localStorage.setItem('userToken', response.data.data.userToken)
-       setAlert({show:true,message:response.data.message})
-       return navigate('/')
+    if(canLogin){
+      const loginResult = await login(loginFormInputs)
+      console.log('loginResult',loginResult.data)
+      if(loginResult.data.success){
+        setAlert({show:true,message:loginResult.data.message})
+        dispatch(setUserData(loginResult.data.data))
+        setTimeout(()=>{navigate('/')},2000)
       }else{
-        console.log('login failed')
-        setAlert({show:true,message:response.data.message}) 
+       setAlert({show:true,message:loginResult.data.message})
       }
-    }).catch((error)=>{
-      console.log(`Error occured while registering ${error}`)
-      setAlert({show:true,message:'server error'})
-    })
+    }else{
+      setAlert({show:true,message:"Please fill all fields"})
+    }
     setLoginFormInputs(formInitialValue)
   }
   return (
@@ -83,7 +83,7 @@ function Login() {
           </div>
         </div>
           <div className="row px-2">
-            <button type="submit" onClick={handleLoginSubmit} className="btn btn-primary ">
+            <button type="submit" onClick={handleLoginSubmit} disabled={!canLogin || !isLoading} className="btn btn-primary ">
               Login
             </button>
           </div>

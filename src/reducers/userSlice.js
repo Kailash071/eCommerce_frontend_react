@@ -22,7 +22,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         }),
         providesTags:[{type:'User',id:'LIST'}]
       }),
-      getUser:builder.query({
+      getUserById:builder.query({
         query:(userId)=>`getUser/?userId=${userId}`,
         transformResponse:(responseData)=>{
             return userAdapter.setAll(initialState,responseData)
