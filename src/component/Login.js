@@ -21,10 +21,23 @@ function Login() {
     console.log("Form submitted successfully",loginFormInputs)
     if(canLogin){
       const loginResult = await login(loginFormInputs)
-      console.log('loginResult',loginResult.data)
+      console.log('loginResult',loginResult.data.data)
       if(loginResult.data.success){
         setAlert({show:true,message:loginResult.data.message})
-        dispatch(setUserData(loginResult.data.data))
+        let result = loginResult.data.data
+        let user = {
+          _id: result.user._id,
+          email:result.user.email,
+          password: result.user.password,
+          name: result.user.name,
+          phoneNumber: result.user.phoneNumber,
+          photo: result.user.photo,
+          role: result.user.role,
+          isDeleted: result.user.isDeleted,
+          theme: result.user.theme,
+          userToken:result.userToken
+        }
+        dispatch(setUserData(user))
         setTimeout(()=>{navigate('/')},2000)
       }else{
        setAlert({show:true,message:loginResult.data.message})

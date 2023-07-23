@@ -8,26 +8,34 @@ export const userReducer = createSlice({
     reducers:{
         setUserData(state,action){
             console.log('action.payload',action.payload)
-            state.user = action.payload.user;
+            state.user = action.payload
             state.userToken = action.payload.userToken
-            sessionStorage.setItem('user',action.payload.user)
-            sessionStorage.setItem('userToken',action.payload.user)
+            localStorage.setItem('user',action.payload)
+            localStorage.setItem('userToken',action.payload.userToken)
         },
-        clearUser(state) {
-              state.user = initialState
+        clearUserAndToken(state) {
+            // console.log('called clear user and token')
+              state.user = null
+              state.userToken = null
+              localStorage.removeItem('user')
+              localStorage.removeItem('userToken')
+              console.log('state now after clear',state.user,state.userToken)
         },
-        getUserData(state){
-            let user = sessionStorage.getItem('user')
-            let userToken = sessionStorage.getItem('userToken')
-            if (user && user!== 'undefined' && userToken  !== '' ){
-                state.user = user;
-                state.userToken= userToken
-            }else{
-                state.user = {}
-                state.userToken = ''
-            }
-        }
+        // getUserData(state){
+        //     let user = localStorage.getItem('user')
+        //     let userToken = localStorage.getItem('userToken')
+        //     console.log('user',user,'userToken',userToken)
+        //     if (user && user!== 'undefined' && userToken  !== '' ){
+        //         state.user = user;
+        //         state.userToken= userToken
+        //     }else{
+        //         state.user = {}
+        //         state.userToken = ''
+        //     }
+        // }
     }
 })
-export const {setUserData,clearUser,getUserData} = userReducer.actions
+export const useUserSelector = (state)=> state.userReducer.user
+export const useUserTokenSelector = (state)=> state.userReducer.userToken
+export const {setUserData,clearUserAndToken,getUserData} = userReducer.actions
 export default userReducer.reducer

@@ -1,11 +1,13 @@
 import React, {useContext } from "react"
 import { NavLink } from "react-router-dom"
 import ThemeContext from "../context/ThemeContext"
-import AuthContext from "../context/AuthContext"
+import useToken from "../services/authServices"
+import { useDispatch } from "react-redux"
+import { clearUserAndToken} from "../reducers/userReducer"
 function Navbar() {
     let{ theme,setTheme }= useContext(ThemeContext)
-    let {userAuth, setUserAuth} = useContext(AuthContext)
-//   const [theme, setTheme] = useState("light")
+    const dispatch = useDispatch()
+    console.log('navbar useToken().user',useToken().user)
   const themeChange = () => {
     if (theme === "light") {
       setTheme("dark")
@@ -18,8 +20,9 @@ function Navbar() {
     }
   }
   const handleLogout = ()=>{
-    localStorage.setItem('userInfo',null)
-    setUserAuth(null)
+    localStorage.removeItem('user')
+    localStorage.removeItem('userToken')
+    dispatch(clearUserAndToken())
   }
   return (
     <nav className={`navbar navbar-expand-lg  sticky-top bg-`+theme} data-bs-theme={theme}>
@@ -97,7 +100,8 @@ function Navbar() {
           </ul>
 
          
-          {!userAuth && <div className="d-flex flex-wrap">
+          {!useToken().user && 
+          <div className="d-flex flex-wrap">
             <NavLink to="/login" className="btn btn-sm btn-outline-primary mx-1">
               Login
             </NavLink>
@@ -108,12 +112,13 @@ function Navbar() {
               Create Account
             </NavLink>
 
-          </div>}
-          {userAuth && <div>
+          </div>
+           } 
+           {useToken().user && <div>
           <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
               Logout
             </NavLink>
-          </div>}
+          </div>} 
           <div className="mx-2 my-1" onClick={themeChange}>
             {theme === "light" ? (
               <i className="bi bi-moon text-dark" id="lightMode"></i>

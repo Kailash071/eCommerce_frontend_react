@@ -14,30 +14,31 @@ import {useState } from "react"
 import { register } from "swiper/element/bundle"
 import TodaysDeal from "./component/TodaysDeal"
 import AlertContext from "./context/AlertContext"
-import AuthContext from "./context/AuthContext"
+// import AuthContext from "./context/AuthContext"
 import Cart from "./component/Cart"
 import Products from "./component/Products"
 import SingleProduct from "./component/SingleProduct"
 import Layout from "./component/Layout"
 import ErrorElement from "./component/ErrorElement"
-
-
-// import * as authServices from './services/authServices'
+// import useToken from './services/authServices'
 // console.log('home authenticateUserToken',authServices.GetUserToken)
 // register Swiper custom elements
 register()
 function App() {
+  // const dispatch = useDispatch()
+  // console.log('user token and info',useToken().user,useToken().userToken)
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") == null
       ? "light"
       : localStorage.getItem("theme")
   )
   const [alert, setAlert] = useState({ show: false, message: "" })
-  const [userAuth, setUserAuth] = useState(null)
-
+  // dispatch(getUserData())
+  // const [userAuth, setUserAuth] = useState(useSelector(useUserSelector))
+  // console.log('user auth ',userAuth)
   const router = createBrowserRouter(
     createRoutesFromElements([
-      <Route element={<Layout />} errorElement={<ErrorElement />}>
+      <Route element={<Layout />}errorElement={<ErrorElement />}>
         <Route
           index
           path="/"
@@ -59,13 +60,13 @@ function App() {
   )
   return (
     <div className={"theme-" + theme}>
-      <AuthContext.Provider value={{ userAuth, setUserAuth }}>
+      {/* <AuthContext.Provider value={{ userAuth, setUserAuth }}> */}
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>
             <RouterProvider router={router}></RouterProvider>
           </AlertContext.Provider>
         </ThemeContext.Provider>
-      </AuthContext.Provider>
+      {/* </AuthContext.Provider> */}
     </div>
   )
 }
