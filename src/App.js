@@ -14,31 +14,27 @@ import {useState } from "react"
 import { register } from "swiper/element/bundle"
 import TodaysDeal from "./component/TodaysDeal"
 import AlertContext from "./context/AlertContext"
-// import AuthContext from "./context/AuthContext"
 import Cart from "./component/Cart"
 import Products from "./component/Products"
 import SingleProduct from "./component/SingleProduct"
-import Layout from "./component/Layout"
 import ErrorElement from "./component/ErrorElement"
-// import useToken from './services/authServices'
-// console.log('home authenticateUserToken',authServices.GetUserToken)
+import BodyLayout from "./component/BodyLayout"
+import { AuthLayout } from "./component/AuthLayout"
+import Profile from "./component/Profile"
+import ChangePassword from "./component/ChangePassword"
 // register Swiper custom elements
 register()
+
 function App() {
-  // const dispatch = useDispatch()
-  // console.log('user token and info',useToken().user,useToken().userToken)
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") == null
       ? "light"
       : localStorage.getItem("theme")
   )
   const [alert, setAlert] = useState({ show: false, message: "" })
-  // dispatch(getUserData())
-  // const [userAuth, setUserAuth] = useState(useSelector(useUserSelector))
-  // console.log('user auth ',userAuth)
   const router = createBrowserRouter(
     createRoutesFromElements([
-      <Route element={<Layout />}errorElement={<ErrorElement />}>
+      <Route element={<BodyLayout />}errorElement={<ErrorElement />}>
         <Route
           index
           path="/"
@@ -53,6 +49,10 @@ function App() {
         <Route path="/products" errorElement={<ErrorElement />} >
           <Route  index element={<Products/>}/>
           <Route path=":productId" element={<SingleProduct />} />
+        </Route>
+        <Route element={<AuthLayout/>} errorElement={<ErrorElement/>}>
+          <Route path="/user/profile" element={<Profile/>}/>
+          <Route path="/user/changePassword" element={<ChangePassword/>}/>
         </Route>
         <Route path="*" errorElement={<ErrorElement />} />
       </Route>,

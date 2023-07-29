@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom/dist"
 import Alert from "./Alert"
 import AlertContext from "../context/AlertContext"
 
-const Layout = () => {
+const BodyLayout = () => {
     const {alert} = useContext(AlertContext)
 
   return (
@@ -18,4 +18,4 @@ const Layout = () => {
   )
 }
 
-export default Layout
+export default BodyLayout

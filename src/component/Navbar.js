@@ -100,7 +100,7 @@ function Navbar() {
           </ul>
 
          
-          {!useToken().user && 
+          {!useToken().userToken && 
           <div className="d-flex flex-wrap">
             <NavLink to="/login" className="btn btn-sm btn-outline-primary mx-1">
               Login
@@ -114,7 +114,7 @@ function Navbar() {
 
           </div>
            } 
-           {useToken().user && <div>
+           {useToken().userToken && <div>
           <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
               Logout
             </NavLink>
@@ -126,6 +126,30 @@ function Navbar() {
                 <i className="bi bi-sun-fill text-light" id="darkMode"></i>
             )}
           </div>
+          {useToken().userToken && <div className="mx-2 my-1 dropdown-center">
+            <NavLink
+              className="dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span>
+              <i className="bi bi-person-circle"></i>
+               </span>
+            </NavLink>
+              <ul className="dropdown-menu">
+                <li>
+                  <NavLink className="dropdown-item" to="/user/profile">
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className="dropdown-item" to="/user/changePassword">
+                    Change Password
+                  </NavLink>
+                </li>
+              </ul>
+          </div>}
           <div className="mx-2 my-1">
             <NavLink to="/cart">
             <button  type="button" className="btn btn-sm position-relative">

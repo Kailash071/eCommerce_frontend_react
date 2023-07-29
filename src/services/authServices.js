@@ -26,7 +26,7 @@ import { setUserData, useUserSelector,useUserTokenSelector ,clearUserAndToken} f
 
 export default function useToken() {
     const dispatch = useDispatch()
-  const getUser = localStorage.getItem('user');
+  const getUser = JSON.parse(localStorage.getItem('user'));
   const user = useSelector(useUserSelector)
   const userToken = useSelector(useUserTokenSelector)
   console.log('user',user,'userToken',userToken)

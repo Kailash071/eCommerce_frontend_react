@@ -10,7 +10,7 @@ export const userReducer = createSlice({
             console.log('action.payload',action.payload)
             state.user = action.payload
             state.userToken = action.payload.userToken
-            localStorage.setItem('user',action.payload)
+            localStorage.setItem('user',JSON.stringify(action.payload))
             localStorage.setItem('userToken',action.payload.userToken)
         },
         clearUserAndToken(state) {
