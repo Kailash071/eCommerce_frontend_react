@@ -100,7 +100,7 @@ function Navbar() {
           </ul>
 
          
-          {!useToken().userToken && 
+          {!useToken().user && 
           <div className="d-flex flex-wrap">
             <NavLink to="/login" className="btn btn-sm btn-outline-primary mx-1">
               Login
@@ -114,7 +114,7 @@ function Navbar() {
 
           </div>
            } 
-           {useToken().userToken && <div>
+           {useToken().user && <div>
           <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
               Logout
             </NavLink>
@@ -126,7 +126,7 @@ function Navbar() {
                 <i className="bi bi-sun-fill text-light" id="darkMode"></i>
             )}
           </div>
-          {useToken().userToken && <div className="mx-2 my-1 dropdown-center">
+          {useToken().user && <div className="mx-2 my-1 dropdown-center">
             <NavLink
               className="dropdown-toggle"
               role="button"

@@ -2,7 +2,7 @@ import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
 import AlertContext from "../context/AlertContext"
 import { useRegisterMutation } from "../reducers/userSlice"
-function Signup(props) {
+function Signup() {
   const formInitialValue = {name: "",email:"",phoneNumber:"",password:""}
    const [inputs, setInputs] = useState(formInitialValue)
    const [register,isLoading] = useRegisterMutation()

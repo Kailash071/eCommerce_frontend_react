@@ -5,7 +5,7 @@ import {React} from 'react'
 export const AuthLayout = () => {    
   return (
     <>
-   {useToken().userToken? <Outlet/> : <Navigate to="/login" />}
+   {useToken().user? <Outlet/> : <Navigate to="/login" />}
     </>
   )
 }

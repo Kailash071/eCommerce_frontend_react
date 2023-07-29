@@ -53,6 +53,7 @@ function App() {
         <Route element={<AuthLayout/>} errorElement={<ErrorElement/>}>
           <Route path="/user/profile" element={<Profile/>}/>
           <Route path="/user/changePassword" element={<ChangePassword/>}/>
+          <Route path="buy"/>
         </Route>
         <Route path="*" errorElement={<ErrorElement />} />
       </Route>,
