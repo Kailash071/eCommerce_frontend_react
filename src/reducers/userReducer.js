@@ -21,6 +21,11 @@ export const userReducer = createSlice({
               localStorage.removeItem('userToken')
               console.log('state now after clear',state.user,state.userToken)
         },
+        UpdateUserData(state,action){
+            console.log('UpdateUserData action.payload',action.payload)
+            state.user = action.payload
+            localStorage.setItem('user',JSON.stringify(action.payload))
+        },
         // getUserData(state){
         //     let user = localStorage.getItem('user')
         //     let userToken = localStorage.getItem('userToken')
@@ -37,5 +42,5 @@ export const userReducer = createSlice({
 })
 export const useUserSelector = (state)=> state.userReducer.user
 export const useUserTokenSelector = (state)=> state.userReducer.userToken
-export const {setUserData,clearUserAndToken,getUserData} = userReducer.actions
+export const {setUserData,clearUserAndToken,getUserData,UpdateUserData} = userReducer.actions
 export default userReducer.reducer
