@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { UpdateUserData, useUserSelector } from "../reducers/userReducer"
 import AlertContext from "../context/AlertContext"
-import { useUpdateMutation } from "../reducers/userSlice"
+import { useUpdateProfileMutation } from "../reducers/userSlice"
 
 const Profile = () => {
     const user = useSelector(useUserSelector)
    const [inputs, setInputs] = useState(user)
    const {setAlert} = useContext(AlertContext)
     const navigate = useNavigate()
-    const [update,isLoading] = useUpdateMutation()
+    const [update,isLoading] = useUpdateProfileMutation()
     const dispatch = useDispatch()
     useEffect(() => {
       setInputs(user)
