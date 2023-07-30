@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { UpdateUserData, useUserSelector } from "../reducers/userReducer"
+import { UpdateUserData, clearUserAndToken, useUserSelector } from "../reducers/userReducer"
 import AlertContext from "../context/AlertContext"
-import { useUpdateProfileMutation } from "../reducers/userSlice"
+import { useDeleteAccountMutation, useUpdateProfileMutation } from "../reducers/userSlice"
 
 const Profile = () => {
   const user = useSelector(useUserSelector)
@@ -11,6 +11,7 @@ const Profile = () => {
   const { setAlert } = useContext(AlertContext)
   const navigate = useNavigate()
   const [update, isLoading] = useUpdateProfileMutation()
+  const [deleteAccount,isDeleteLoading] = useDeleteAccountMutation()
   const dispatch = useDispatch()
   useEffect(() => {
     setInputs(user)
@@ -39,6 +40,15 @@ const Profile = () => {
   }
   const handleAccountDelete = async (e)=>{
     e.preventDefault()
+    const result = await deleteAccount({_id:user._id})
+    console.log('delete account result',result)
+    if (result.data.success) {
+      dispatch(clearUserAndToken())
+      navigate('/')
+      setAlert({ show: true, message: result.data.message })
+    } else {
+      setAlert({ show: true, message: result.data.message })
+    }
   }
   return (
     <>
@@ -158,7 +168,7 @@ const Profile = () => {
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleAccountDelete}>
+                <button type="button" className="btn btn-primary" disabled={!isDeleteLoading} onClick={handleAccountDelete}>
                   Yes, Delete it.
                 </button>
               </div>

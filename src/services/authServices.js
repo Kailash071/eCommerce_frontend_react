@@ -29,15 +29,13 @@ export default function useToken() {
   const getUser = JSON.parse(localStorage.getItem('user'));
   const user = useSelector(useUserSelector)
   const userToken = useSelector(useUserTokenSelector)
-  console.log('user',user,'userToken',userToken)
+  // console.log('user',user,'userToken',userToken)
   if(!user&&!userToken){
-    console.log('not in store')
-    console.log('auth service user',getUser)
+    // console.log('not in store')
+    // console.log('auth service user',getUser)
     if(getUser){
-    console.log('setting  user in store')
+    // console.log('setting  user in store')
         dispatch(setUserData(getUser))
-    }else{
-        dispatch(clearUserAndToken())
     }
   }
   return {

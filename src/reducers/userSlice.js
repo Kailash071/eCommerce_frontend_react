@@ -51,8 +51,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method:"POST",
           body:authData
         })
+       }),
+       deleteAccount : builder.mutation({
+        query:(data)=>({
+          url:'/userDelete',
+          method:"POST",
+          body:data
+        })
        })
     })
 })
 
-export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation} = userApiSlice;
+export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation} = userApiSlice;
