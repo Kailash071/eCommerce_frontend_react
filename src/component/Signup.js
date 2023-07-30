@@ -24,7 +24,7 @@ function Signup() {
      console.log('registerResult',registerResult.data)
      if(registerResult.data.success){
        setAlert({show:true,message:registerResult.data.message})
-       setTimeout(()=>{navigate('/login')},2000)
+       navigate('/login')
      }else{
       setAlert({show:true,message:registerResult.data.message})
      }

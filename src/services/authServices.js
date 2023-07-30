@@ -22,7 +22,7 @@
 // }
 
 import { useSelector ,useDispatch} from "react-redux";
-import { setUserData, useUserSelector,useUserTokenSelector ,clearUserAndToken} from "../reducers/userReducer";
+import { setUserData, useUserSelector,useUserTokenSelector} from "../reducers/userReducer";
 
 export default function useToken() {
     const dispatch = useDispatch()

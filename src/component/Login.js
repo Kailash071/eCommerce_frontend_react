@@ -40,7 +40,7 @@ function Login() {
           userToken:result.userToken
         }
         dispatch(setUserData(user))
-        setTimeout(()=>{navigate('/')},2000)
+        navigate('/')
       }else{
        setAlert({show:true,message:loginResult.data.message})
       }
