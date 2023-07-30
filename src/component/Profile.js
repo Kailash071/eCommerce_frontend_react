@@ -44,7 +44,7 @@ const Profile = () => {
     console.log('delete account result',result)
     if (result.data.success) {
       dispatch(clearUserAndToken())
-      navigate('/')
+      navigate('/') // error - navigate to /login after clearUserAndToken() due to auth services instead of given naviagte('/)
       setAlert({ show: true, message: result.data.message })
     } else {
       setAlert({ show: true, message: result.data.message })
@@ -168,7 +168,7 @@ const Profile = () => {
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" disabled={!isDeleteLoading} onClick={handleAccountDelete}>
+                <button type="button" className="btn btn-primary"  data-bs-dismiss="modal" disabled={!isDeleteLoading} onClick={handleAccountDelete}>
                   Yes, Delete it.
                 </button>
               </div>
