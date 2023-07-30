@@ -114,18 +114,6 @@ function Navbar() {
 
           </div>
            } 
-           {useToken().user && <div>
-          <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
-              Logout
-            </NavLink>
-          </div>} 
-          <div className="mx-2 my-1" onClick={themeChange}>
-            {theme === "light" ? (
-              <i className="bi bi-moon text-dark" id="lightMode"></i>
-            ) : (
-                <i className="bi bi-sun-fill text-light" id="darkMode"></i>
-            )}
-          </div>
           {useToken().user && <div className="mx-2 my-1 dropdown-center">
             <NavLink
               className="dropdown-toggle"
@@ -163,6 +151,18 @@ function Navbar() {
             </button>
             </NavLink>
           </div>
+          <div className="mx-2 my-1" role="button" onClick={themeChange}>
+            {theme === "light" ? (
+              <i className="bi bi-moon text-dark" id="lightMode"></i>
+            ) : (
+                <i className="bi bi-sun-fill text-light" id="darkMode"></i>
+            )}
+          </div>
+          {useToken().user && <div>
+          <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
+              Logout
+            </NavLink>
+          </div>} 
         </div>
       </div>
     </nav>

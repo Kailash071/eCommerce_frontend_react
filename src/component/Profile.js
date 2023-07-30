@@ -131,7 +131,7 @@ const Profile = () => {
             </div>
           </form>
           <div className="text-center float-start my-1">
-            <Link className="text-decoration-none" to="/ChangePassword">
+            <Link className="text-decoration-none" to="/user/changePassword">
               Change Password?
             </Link>
           </div>
