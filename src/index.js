@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { store } from "./store"
 import { Provider } from "react-redux"
 import { productsApiSlice } from './reducers/productsSlice';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate())
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
          <App />
+      </GoogleOAuthProvider>
     </Provider>
   </React.StrictMode>
 );

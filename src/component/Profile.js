@@ -128,14 +128,14 @@ const Profile = () => {
           <div className="text-center float-end my-1">
             <button
               className="btn btn-sm btn-outline-danger" type="button"
-              data-bs-toggle="modal" data-bs-target="accountDeleteModal"
+              data-bs-toggle="modal" data-bs-target="#accountDeleteModal"
             >
               Delete Account!
             </button>
           </div>
         </div>
       </div>
-      <div className="modal  fade" id="accountDeleteModal"  aria-hidden="true" tabIndex={-1}>
+      <div className="modal fade" id="accountDeleteModal"  aria-hidden="true" tabIndex={-1}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

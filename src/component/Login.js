@@ -1,14 +1,16 @@
 import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
 import AlertContext from "../context/AlertContext"
-import { useLoginMutation } from "../reducers/userSlice"
+import { useGoogleAuthMutation, useLoginMutation } from "../reducers/userSlice"
 import { setUserData } from "../reducers/userReducer"
 import { useDispatch } from "react-redux"
+import { useGoogleLogin } from '@react-oauth/google';
 function Login() {
   const formInitialValue = {email:'',password:''}
   const [loginFormInputs, setLoginFormInputs] = useState(formInitialValue)
   const {setAlert} = useContext(AlertContext)
   const [login,isLoading] = useLoginMutation()
+  const [googleAuthCode,isLoadingGoogleAuthCode] = useGoogleAuthMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const canLogin = Object.values(loginFormInputs).every(Boolean)
@@ -47,6 +49,29 @@ function Login() {
     }
     setLoginFormInputs(formInitialValue)
   }
+  const googleLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (codeResponse) => {
+        // console.log('googleLogin codeResonse',codeResponse);
+        const result = await googleAuthCode({code: codeResponse.code,
+              })
+        // console.log('googleLogin--->',result.data);
+        if(result.data.success){
+          setAlert({show:true,message:result.data.message})
+          let user = {...result.data.data.user,
+            userToken:result.data.data.userToken
+          }
+          dispatch(setUserData(user))
+          navigate('/')
+        }else{
+         setAlert({show:true,message:result.data.message})
+        }
+    },
+    onError:( errorResponse )=> {
+      console.log('googleLogin errorResponse',errorResponse)
+      setAlert({show:true,message:'Something Went Wrong!!'})
+      },  
+  });
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center my-5">
       <div className="shadow-lg rounded p-3">
@@ -104,14 +129,14 @@ function Login() {
         <div className="d-flex flex-column my-2 px-2">
           <hr />
           <div className="row my-1">
-            <Link
+            <button
               className="btn btn-success"
-              to="/loginWithGoogle"
-              role="button"
+              onClick={()=> googleLogin()}
+              disabled={!isLoadingGoogleAuthCode}
             >
               <i className="bi bi-google mx-2"></i>
               Continue with Google
-            </Link>
+            </button>
           </div>
           <div className="row my-1">
             <Link
