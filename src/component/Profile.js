@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { UpdateUserData, useUserSelector } from "../reducers/userReducer"
@@ -12,6 +12,10 @@ const Profile = () => {
     const navigate = useNavigate()
     const [update,isLoading] = useUpdateMutation()
     const dispatch = useDispatch()
+    useEffect(() => {
+      setInputs(user)
+    }, [user])
+    
    const handleInputChange = (e)=>{
     e.preventDefault()
     setInputs({...inputs,[e.target.name]:e.target.value})
@@ -25,6 +29,7 @@ const Profile = () => {
         const updateResult =  await update(inputs)
         if(updateResult.data.success){
             dispatch(UpdateUserData(updateResult.data.data))
+            
             // setInputs(updateResult.data.data) how to set new data in form should i reload ? 
             setAlert({show:true,message:updateResult.data.message})
         }else{
