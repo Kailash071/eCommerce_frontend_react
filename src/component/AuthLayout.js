@@ -1,11 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
-import useToken from "../services/authServices"
 import {React} from 'react'
+import { useSelector } from "react-redux";
+import { useUserSelector } from "../reducers/userReducer";
 
-export const AuthLayout = () => {    
+export const AuthLayout = () => {  
+  const user  = useSelector(useUserSelector)  
   return (
     <>
-   {useToken().user? <Outlet/> : <Navigate to="/login" />}
+   {user? <Outlet/> : <Navigate to="/login" />}
     </>
   )
 }

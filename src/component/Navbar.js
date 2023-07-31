@@ -1,13 +1,12 @@
 import React, {useContext } from "react"
 import { NavLink } from "react-router-dom"
 import ThemeContext from "../context/ThemeContext"
-import useToken from "../services/authServices"
-import { useDispatch } from "react-redux"
-import { clearUserAndToken} from "../reducers/userReducer"
+import { useDispatch, useSelector } from "react-redux"
+import { clearUserAndToken,useUserSelector} from "../reducers/userReducer"
 function Navbar() {
     let{ theme,setTheme }= useContext(ThemeContext)
     const dispatch = useDispatch()
-    console.log('navbar useToken().user',useToken().user)
+    const user  = useSelector(useUserSelector)
   const themeChange = () => {
     if (theme === "light") {
       setTheme("dark")
@@ -100,7 +99,7 @@ function Navbar() {
           </ul>
 
          
-          {!useToken().user && 
+          {!user && 
           <div className="d-flex flex-wrap">
             <NavLink to="/login" className="btn btn-sm btn-outline-primary mx-1">
               Login
@@ -114,7 +113,7 @@ function Navbar() {
 
           </div>
            } 
-          {useToken().user && <div className="mx-2 my-1 dropdown-center">
+          {user && <div className="mx-2 my-1 dropdown-center">
             <NavLink
               className="dropdown-toggle"
               role="button"
@@ -158,7 +157,7 @@ function Navbar() {
                 <i className="bi bi-sun-fill text-light" id="darkMode"></i>
             )}
           </div>
-          {useToken().user && <div>
+          {user && <div>
           <NavLink onClick={handleLogout} className="btn btn-sm btn-outline-primary mx-1">
               Logout
             </NavLink>

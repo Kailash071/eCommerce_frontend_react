@@ -58,7 +58,16 @@ function Login() {
         // console.log('googleLogin--->',result.data);
         if(result.data.success){
           setAlert({show:true,message:result.data.message})
-          let user = {...result.data.data.user,
+          let user = {
+            _id: result.data.data.user._id,
+            email:result.data.data.user.email,
+            password: result.data.data.user.password,
+            name: result.data.data.user.name,
+            phoneNumber: result.data.data.user.phoneNumber,
+            photo: result.data.data.user.photo,
+            role: result.data.data.user.role,
+            isDeleted: result.data.data.user.isDeleted,
+            theme: result.data.data.user.theme,
             userToken:result.data.data.userToken
           }
           dispatch(setUserData(user))
