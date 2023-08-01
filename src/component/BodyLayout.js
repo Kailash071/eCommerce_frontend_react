@@ -6,7 +6,7 @@ import Alert from "./Alert"
 import AlertContext from "../context/AlertContext"
 import { useDispatch, useSelector } from "react-redux"
 import { useGetUserByIdQuery } from "../reducers/userSlice"
-import { setUserData, useUserSelector, useUserTokenSelector } from "../reducers/userReducer"
+import { setUserData, useUserSelector } from "../reducers/userReducer"
 
 const BodyLayout = () => {
   const { alert } = useContext(AlertContext)
@@ -21,7 +21,7 @@ const BodyLayout = () => {
   const {data:userResult,isSuccess} = useGetUserByIdQuery(userId)
   const userSelector = useSelector(useUserSelector)
   console.log('userResult',userResult)
-  if(isSuccess){
+  if(isSuccess&&!userSelector){
     if(userResult.success){
       let user = {
         _id: userResult.data.user._id,
