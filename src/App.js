@@ -22,6 +22,7 @@ import BodyLayout from "./component/BodyLayout"
 import { AuthLayout } from "./component/AuthLayout"
 import Profile from "./component/Profile"
 import ChangePassword from "./component/ChangePassword"
+import LoginWithNumber from "./component/LoginWithNumber"
 // register Swiper custom elements
 register()
 
@@ -42,6 +43,7 @@ function App() {
           errorElement={<ErrorElement />}
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/loginWithPhoneNumber" element={<LoginWithNumber/>} />
         <Route path="/signUp" element={<Signup />} />
         <Route path="/forgetPassword" element={<Forgetpassword />} />
         <Route path="/todaysDeal" element={<TodaysDeal />} />
