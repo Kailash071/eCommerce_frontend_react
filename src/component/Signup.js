@@ -2,22 +2,28 @@ import {React,useState,useContext} from "react"
 import { Link,useNavigate } from "react-router-dom"
 import AlertContext from "../context/AlertContext"
 import { useRegisterMutation } from "../reducers/userSlice"
+import PhoneInput from "react-phone-input-2"
+import 'react-phone-input-2/lib/style.css'
+
 function Signup() {
   const formInitialValue = {name: "",email:"",phoneNumber:"",password:""}
    const [inputs, setInputs] = useState(formInitialValue)
+   const [phoneNumber,setPhoneNumber] = useState('')
    const [register,isLoading] = useRegisterMutation()
    const {setAlert} = useContext(AlertContext)
    const navigate = useNavigate();
    const canRegister = Object.values(inputs).every(Boolean)
   const handleInputChange = (e)=>{
     e.preventDefault()
-    setInputs({...inputs,[e.target.name]:e.target.value})
+    setInputs({...inputs,[e.target.name]:e.target.value,phoneNumber:phoneNumber})
     // console.log('canRegister',canRegister)
   }
 
   const handleRegisterSubmit = async (e)=>{
     e.preventDefault();
-    // console.log("Form submitted successfully",inputs)
+    inputs.phoneNumber = phoneNumber
+    //  console.log("Form submitted successfully",inputs)
+    //  console.log('input number',phoneNumber)
     // console.log('canRegister',canRegister)
     if(canRegister){
      const registerResult =  await register(inputs)
@@ -90,7 +96,7 @@ function Signup() {
             <label htmlFor="phoneNumber" className="form-label">
               Phone Number
             </label>
-            <input
+            {/* <input
               type="number"
               className="form-control"
               name="phoneNumber"
@@ -100,7 +106,23 @@ function Signup() {
               placeholder="Phone Number"
               onChange={handleInputChange}
               value={inputs.phoneNumber}
-            />
+            /> */}
+              <PhoneInput
+              country={'in'}
+              value={phoneNumber}
+              onChange={(number) => setPhoneNumber(number)}
+              inputProps={{
+                name: 'phoneNumber',
+                required: true,
+                className: 'form-control',
+                autoFocus: true,
+              }}
+              inputStyle={{
+                width: "100%",
+              }}
+              dropdownStyle={{
+                color: 'black'
+              }}/>
           </div>
           <div className="row px-2">
             <button onClick={handleRegisterSubmit} disabled={!canRegister || !isLoading} className="btn btn-primary ">

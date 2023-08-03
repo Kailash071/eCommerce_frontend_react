@@ -95,7 +95,7 @@ const LoginWithNumber = () => {
               inputProps={{
                 name: 'phoneNumber',
                 required: true,
-                class: 'form-control',
+                className: 'form-control',
                 autoFocus: true,
               }}
               inputStyle={{
