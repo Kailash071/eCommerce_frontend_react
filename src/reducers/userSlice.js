@@ -59,8 +59,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method:"POST",
           body:data
         })
+       }),
+       sendLoginOtp : builder.mutation({
+        query:(data)=>({
+          url:'/sendLoginOtp',
+          method:"POST",
+          body:data
+        })
        })
     })
 })
 
-export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByIdQuery} = userApiSlice;
+export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByIdQuery,useSendLoginOtpMutation} = userApiSlice;

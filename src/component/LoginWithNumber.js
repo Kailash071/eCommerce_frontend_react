@@ -1,15 +1,18 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import AlertContext from '../context/AlertContext'
+import { useSendLoginOtpMutation } from '../reducers/userSlice'
 const LoginWithNumber = () => {
   const { setAlert } = useContext(AlertContext)
   //send otp
   const [phoneNumber, setPhoneNumber] = useState('')
   const [name, setName] = useState('')
   const [otpSent, setOtpSent] = useState(false)
-  const handleSendOtp = (e) => {
+  const [sendLoginOtp,isLoading] = useSendLoginOtpMutation()
+  const navigate = useNavigate()
+  const handleSendOtp = async (e) => {
     e.preventDefault()
     const sendData = {
       name: name,
@@ -18,9 +21,17 @@ const LoginWithNumber = () => {
     console.log('sendData', sendData)
     const canSend = Object.values(sendData).every(Boolean)
     if (canSend) {
-      setOtpSent(true)
-      setName('')
-      setPhoneNumber('')
+      let otpResult = await sendLoginOtp(sendData)
+      console.log('otpResult',otpResult.data)
+      if(otpResult.data.success){
+        setAlert({show:true,message:otpResult.data.message})
+        setOtpSent(true)
+        setName('')
+        setPhoneNumber('')
+        navigate('/')
+      }else{
+       setAlert({show:true,message:otpResult.data.message})
+      }
     } else {
       setAlert({ show: true, message: "Please enter name and phone number" })
     }
