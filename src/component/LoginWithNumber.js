@@ -41,7 +41,9 @@ const LoginWithNumber = () => {
     otpDigit1:'',
     otpDigit2:'',
     otpDigit3:'',
-    otpDigit4:''
+    otpDigit4:'',
+    otpDigit5:'',
+    otpDigit6:''
   }
   const [otpInputs, setOtpInputs] = useState(otpInitial)
   const handleOtpChange = (e)=>{
@@ -127,7 +129,7 @@ const LoginWithNumber = () => {
               <label htmlFor="otp" className="form-label">
                 Enter otp sent on above phone number
               </label>
-              <div className='d-flex justify-content-around align-items-center gap-3'>
+              <div className='d-flex justify-content-center align-items-center gap-1'>
                 <input
                   type="number"
                   className="p-1 text-center shadow-none rounded form-control"
@@ -170,6 +172,28 @@ const LoginWithNumber = () => {
                   id='otpDigit4'
                   disabled={!otpSent}
                   value={otpInputs.otpDigit4}
+                  onChange={handleOtpChange}
+                />
+                 <input
+                  type="number"
+                  className="p-1 text-center shadow-none rounded form-control"
+                  min={1}
+                  max={1}
+                  name="otpDigit5"
+                  id='otpDigit5'
+                  disabled={!otpSent}
+                  value={otpInputs.otpDigit5}
+                  onChange={handleOtpChange}
+                />
+                 <input
+                  type="number"
+                  className="p-1 text-center shadow-none rounded form-control"
+                  min={1}
+                  max={1}
+                  name="otpDigit6"
+                  id='otpDigit6'
+                  disabled={!otpSent}
+                  value={otpInputs.otpDigit6}
                   onChange={handleOtpChange}
                 />
               </div>
