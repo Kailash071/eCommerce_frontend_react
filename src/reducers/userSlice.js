@@ -3,7 +3,7 @@ import { apiSlice } from "../api/apiSlice";
 
 const userAdapter = createEntityAdapter()
 
-const initialState = userAdapter.getInitialState()
+userAdapter.getInitialState()
 
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints:(builder)=>({
@@ -66,8 +66,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method:"POST",
           body:data
         })
+       }),
+       verifyLoginOtp : builder.mutation({
+        query:(data)=>({
+          url:'/verifyLoginOtp',
+          method:"POST",
+          body:data
+        })
        })
     })
 })
 
-export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByIdQuery,useSendLoginOtpMutation} = userApiSlice;
+export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByIdQuery,useSendLoginOtpMutation,useVerifyLoginOtpMutation} = userApiSlice;

@@ -3,32 +3,33 @@ import { Link, useNavigate } from 'react-router-dom'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import AlertContext from '../context/AlertContext'
-import { useSendLoginOtpMutation } from '../reducers/userSlice'
+import { useSendLoginOtpMutation,useVerifyLoginOtpMutation } from '../reducers/userSlice'
+import { setUserData } from '../reducers/userReducer'
+import { useDispatch } from 'react-redux'
 const LoginWithNumber = () => {
   const { setAlert } = useContext(AlertContext)
+  const dispatch = useDispatch()
   //send otp
   const [phoneNumber, setPhoneNumber] = useState('')
   const [name, setName] = useState('')
   const [otpSent, setOtpSent] = useState(false)
   const [sendLoginOtp,isLoading] = useSendLoginOtpMutation()
+  const [verifyLoginOtp,isVerifyLoading] = useVerifyLoginOtpMutation()
   const navigate = useNavigate()
+  const sendData = {
+    name: name,
+    phoneNumber: phoneNumber
+  }
+  console.log('sendData', sendData)
+  const canSend = Object.values(sendData).every(Boolean)
   const handleSendOtp = async (e) => {
     e.preventDefault()
-    const sendData = {
-      name: name,
-      phoneNumber: phoneNumber
-    }
-    console.log('sendData', sendData)
-    const canSend = Object.values(sendData).every(Boolean)
     if (canSend) {
       let otpResult = await sendLoginOtp(sendData)
       console.log('otpResult',otpResult.data)
       if(otpResult.data.success){
         setAlert({show:true,message:otpResult.data.message})
         setOtpSent(true)
-        setName('')
-        setPhoneNumber('')
-        navigate('/')
       }else{
        setAlert({show:true,message:otpResult.data.message})
       }
@@ -51,11 +52,36 @@ const LoginWithNumber = () => {
     setOtpInputs({...otpInputs,[e.target.name]:e.target.value})
   }
   const canVerify = Object.values(otpInputs).every(Boolean)
-  const handleVerifyOtp = (e)=>{
+  const handleVerifyOtp = async (e)=>{
     e.preventDefault()
     console.log('otp--->',otpInputs)
+    const body = {
+      ...sendData,
+      ...otpInputs
+    }
     if(canVerify){
-      setOtpInputs(otpInitial)
+      const  verifyResult =await  verifyLoginOtp(body)
+      console.log('verifyResult',verifyResult)
+      if(verifyResult.data.success){
+        let user = {
+          _id:verifyResult.data.data.user._id,
+          email:verifyResult.data.data.user.email,
+          password:verifyResult.data.data.user.password,
+          name:verifyResult.data.data.user.name,
+          phoneNumber:verifyResult.data.data.user.phoneNumber,
+          photo:verifyResult.data.data.user.photo,
+          role:verifyResult.data.data.user.role,
+          isDeleted:verifyResult.data.data.user.isDeleted,
+          theme:verifyResult.data.data.user.theme,
+          userToken:verifyResult.data.data.userToken
+        }
+        dispatch(setUserData(user))
+        setAlert({show:true,message:verifyResult.data.message})
+        setOtpInputs(otpInitial)
+        navigate('/')
+      }else{
+       setAlert({show:true,message:verifyResult.data.message})
+      }
     }else{
       setAlert({ show: true, message: "Please enter valid otp" })
     }
@@ -120,7 +146,7 @@ const LoginWithNumber = () => {
             />
           </div>
           <div className="row px-2">
-            <button onClick={handleSendOtp} className="btn btn-primary ">
+            <button onClick={handleSendOtp} disabled={!isLoading || !canSend} className="btn btn-primary ">
               Send Otp
             </button>
           </div>
@@ -199,13 +225,8 @@ const LoginWithNumber = () => {
               </div>
             </div>
             <div className='row px-2 mt-2 mb-2'>
-              <button type='button' onClick={handleVerifyOtp} disabled={!otpSent || !canVerify} className="btn btn-success">
+              <button type='button' onClick={handleVerifyOtp} disabled={!otpSent || !canVerify || !isVerifyLoading} className="btn btn-success">
                 Verify otp
-              </button>
-            </div>
-            <div className="d-flex justify-content-end mt-1">
-              <button disabled={!otpSent || !canVerify} className="btn btn-sm btn-outline-primary">
-                send again?
               </button>
             </div>
           </div>
