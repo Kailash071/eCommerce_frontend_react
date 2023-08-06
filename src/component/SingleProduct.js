@@ -21,6 +21,7 @@ function SingleProduct() {
   }
   return (
     <>
+    <div className='container-fluid mt-3 mb-3'>
     {product &&     <div className="card" style={{ width: "200px" }}>
           <div className="text-center mt-1">
             <img
@@ -41,6 +42,7 @@ function SingleProduct() {
             </div>
           </div>
         </div>}
+    </div>
     </>
   )
 }
