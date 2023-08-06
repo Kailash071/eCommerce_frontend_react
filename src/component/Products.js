@@ -18,11 +18,11 @@ function Products() {
   }
   return (
     <>
-    <div className="container-fluid">
+    <div className="container-fluid mt-3 mb-3">
     <div >
     {/* filter */}
     </div>
-      <div className="product d-flex justify-content-center align-items-center   flex-wrap gap-2 ">
+      <div className="product row g-3 ">
         {content}
       </div>
 
