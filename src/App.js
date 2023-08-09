@@ -23,6 +23,7 @@ import { AuthLayout } from "./component/AuthLayout"
 import Profile from "./component/Profile"
 import ChangePassword from "./component/ChangePassword"
 import LoginWithNumber from "./component/LoginWithNumber"
+import ChartContext from "./context/chartContext"
 // register Swiper custom elements
 register()
 
@@ -33,6 +34,9 @@ function App() {
       : localStorage.getItem("theme")
   )
   const [alert, setAlert] = useState({ show: false, message: "" })
+  const [chart,setChart] = useState(JSON.parse( localStorage.getItem("shopNowChart")) == null
+  ? []
+  : JSON.parse(localStorage.getItem("shopNowChart")))
   const router = createBrowserRouter(
     createRoutesFromElements([
       <Route element={<BodyLayout />}errorElement={<ErrorElement />}>
@@ -66,7 +70,9 @@ function App() {
       {/* <AuthContext.Provider value={{ userAuth, setUserAuth }}> */}
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>
-            <RouterProvider router={router}></RouterProvider>
+            <ChartContext.Provider value={{ chart,setChart }}>
+              <RouterProvider router={router}></RouterProvider>
+            </ChartContext.Provider>
           </AlertContext.Provider>
         </ThemeContext.Provider>
       {/* </AuthContext.Provider> */}

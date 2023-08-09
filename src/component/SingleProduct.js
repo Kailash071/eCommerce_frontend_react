@@ -1,10 +1,14 @@
-import { React } from 'react'
+import { React, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import FormatPrice from './FormatPrice';
 import { useGetProductsQuery } from '../reducers/productsSlice';
+import ChartContext from '../context/chartContext';
+import AlertContext from '../context/AlertContext';
 
 function SingleProduct() {
   const { productId } = useParams()
+  const {setChart} = useContext(ChartContext)
+  const {setAlert} = useContext(AlertContext)
   //  console.log('params id',productId)
   const { product } = useGetProductsQuery('getProducts', {
     selectFromResult: ({ data }) => ({
@@ -18,6 +22,26 @@ function SingleProduct() {
   // }
   if (!product) {
     return (<p>{`No Product with ID ${productId}`}</p>);
+  }
+
+  const handleAddToChart = (e)=>{
+    e.preventDefault()
+    if(JSON.parse(localStorage.getItem('shopNowChart'))!== null){
+      let chartData=JSON.parse(localStorage.getItem("shopNowChart"))
+      console.log('chartData',chartData)
+      if(!chartData.includes(product.id)){
+        chartData.push(product.id)
+        setChart(chartData) 
+        localStorage.setItem('shopNowChart',JSON.stringify(chartData))
+      }else{
+        setAlert({show:true,message:'Already in your chart'})
+      }
+     
+    }else{
+      let chart = [product.id]
+      setChart(chart)  
+      localStorage.setItem('shopNowChart',JSON.stringify(chart))
+    }
   }
   return (
     <>
@@ -59,24 +83,22 @@ function SingleProduct() {
             </div>
             <div className='d-flex align-items-start gap-3'>
               <button className='btn btn-primary'>Buy Now</button>
-              <button className='btn btn-secondary'>Add To Chart</button>
+              <button className='btn btn-secondary' onClick={handleAddToChart}>Add To Chart</button>
             </div>
-            <div className='w-50'><hr /></div>
-            <div className='d-flex gap-2'>
+            <div className='d-flex gap-2 mt-3'>
               <div className='text-center d-flex flex-column'>
                 <i className="bi bi-truck"></i>
                 <span className='fw-lighter'>Free Delivery</span>
               </div>
               <div className='text-center d-flex flex-column' >
-                  <i class="bi bi-currency-rupee"></i>
+                  <i className="bi bi-currency-rupee"></i>
                 <span  className='fw-lighter'>Pay On Delivery</span>
               </div>
               <div className='text-center d-flex flex-column'>
-                <i class="bi bi-shield-check"></i>
+                <i className="bi bi-shield-check"></i>
                 <span  className='fw-lighter'>1 Warranty</span>
               </div>
             </div>
-            <div className='w-50'><hr /></div>
           </div>
         </div>
       </div>
