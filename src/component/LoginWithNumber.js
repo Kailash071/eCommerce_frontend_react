@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -38,26 +38,32 @@ const LoginWithNumber = () => {
     }
   }
   //verify otp
-  const otpInitial = {
-    otpDigit1:'',
-    otpDigit2:'',
-    otpDigit3:'',
-    otpDigit4:'',
-    otpDigit5:'',
-    otpDigit6:''
-  }
-  const [otpInputs, setOtpInputs] = useState(otpInitial)
-  const handleOtpChange = (e)=>{
-    e.preventDefault()
-    setOtpInputs({...otpInputs,[e.target.name]:e.target.value})
-  }
-  const canVerify = Object.values(otpInputs).every(Boolean)
+  const otpInitial = ['', '', '', '', '', '']
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const inputRefs = useRef([]);
+
+  const handleOtpChange = (index, value) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value !== '' && index < otp.length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (event, index) => {
+    if (event.key === 'Backspace' && index > 0 && otp[index] === '') {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+  const canVerify = Object.values(otp).every(Boolean)
   const handleVerifyOtp = async (e)=>{
     e.preventDefault()
-    console.log('otp--->',otpInputs)
+    console.log('otp--->',otp)
     const body = {
       ...sendData,
-      ...otpInputs
+      otp:otp
     }
     if(canVerify){
       const  verifyResult =await  verifyLoginOtp(body)
@@ -77,7 +83,7 @@ const LoginWithNumber = () => {
         }
         dispatch(setUserData(user))
         setAlert({show:true,message:verifyResult.data.message})
-        setOtpInputs(otpInitial)
+        setOtp(otpInitial)
         navigate('/')
       }else{
        setAlert({show:true,message:verifyResult.data.message})
@@ -156,72 +162,20 @@ const LoginWithNumber = () => {
                 Enter otp sent on above phone number
               </label>
               <div className='d-flex justify-content-center align-items-center gap-1'>
-                <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit1"
-                  id='otpDigit1'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit1}
-                  onChange={handleOtpChange}
-                />
-                <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit2"
-                  id='otpDigit2'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit2}
-                  onChange={handleOtpChange}
-                />
-                <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit3"
-                  id='otpDigit3'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit3}
-                  onChange={handleOtpChange}
-                />
-                <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit4"
-                  id='otpDigit4'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit4}
-                  onChange={handleOtpChange}
-                />
-                 <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit5"
-                  id='otpDigit5'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit5}
-                  onChange={handleOtpChange}
-                />
-                 <input
-                  type="number"
-                  className="p-1 text-center shadow-none rounded form-control"
-                  min={1}
-                  max={1}
-                  name="otpDigit6"
-                  id='otpDigit6'
-                  disabled={!otpSent}
-                  value={otpInputs.otpDigit6}
-                  onChange={handleOtpChange}
-                />
+              {otp.map((digit, index) => (
+                      <input
+                        key={index}
+                        ref={(ref) => (inputRefs.current[index] = ref)}
+                        type="text"
+                        maxLength="1"
+                        value={digit}
+                        className='p-1 text-center shadow-none rounded form-control'
+                        style={{"width": "60px"}}
+                        disabled={!otpSent}
+                        onChange={(e) => handleOtpChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                      />
+                    ))}
               </div>
             </div>
             <div className='row px-2 mt-2 mb-2'>
