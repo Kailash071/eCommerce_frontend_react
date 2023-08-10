@@ -23,7 +23,7 @@ import { AuthLayout } from "./component/AuthLayout"
 import Profile from "./component/Profile"
 import ChangePassword from "./component/ChangePassword"
 import LoginWithNumber from "./component/LoginWithNumber"
-import ChartContext from "./context/chartContext"
+import CartContext from "./context/CartContext"
 // register Swiper custom elements
 register()
 
@@ -34,9 +34,9 @@ function App() {
       : localStorage.getItem("theme")
   )
   const [alert, setAlert] = useState({ show: false, message: "" })
-  const [chart,setChart] = useState(JSON.parse( localStorage.getItem("shopNowChart")) == null
+  const [cart,setCart] = useState(JSON.parse( localStorage.getItem("shopNowCart")) == null
   ? []
-  : JSON.parse(localStorage.getItem("shopNowChart")))
+  : JSON.parse(localStorage.getItem("shopNowCart")))
   const router = createBrowserRouter(
     createRoutesFromElements([
       <Route element={<BodyLayout />}errorElement={<ErrorElement />}>
@@ -70,9 +70,9 @@ function App() {
       {/* <AuthContext.Provider value={{ userAuth, setUserAuth }}> */}
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>
-            <ChartContext.Provider value={{ chart,setChart }}>
+            <CartContext.Provider value={{ cart,setCart }}>
               <RouterProvider router={router}></RouterProvider>
-            </ChartContext.Provider>
+            </CartContext.Provider>
           </AlertContext.Provider>
         </ThemeContext.Provider>
       {/* </AuthContext.Provider> */}

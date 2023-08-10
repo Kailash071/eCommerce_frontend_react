@@ -2,12 +2,12 @@ import { React, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import FormatPrice from './FormatPrice';
 import { useGetProductsQuery } from '../reducers/productsSlice';
-import ChartContext from '../context/chartContext';
+import CartContext from '../context/CartContext';
 import AlertContext from '../context/AlertContext';
 
 function SingleProduct() {
   const { productId } = useParams()
-  const {setChart} = useContext(ChartContext)
+  const {setCart} = useContext(CartContext)
   const {setAlert} = useContext(AlertContext)
   //  console.log('params id',productId)
   const { product } = useGetProductsQuery('getProducts', {
@@ -24,23 +24,23 @@ function SingleProduct() {
     return (<p>{`No Product with ID ${productId}`}</p>);
   }
 
-  const handleAddToChart = (e)=>{
+  const handleAddToCart = (e)=>{
     e.preventDefault()
-    if(JSON.parse(localStorage.getItem('shopNowChart'))!== null){
-      let chartData=JSON.parse(localStorage.getItem("shopNowChart"))
-      console.log('chartData',chartData)
-      if(!chartData.includes(product.id)){
-        chartData.push(product.id)
-        setChart(chartData) 
-        localStorage.setItem('shopNowChart',JSON.stringify(chartData))
+    if(JSON.parse(localStorage.getItem('shopNowCart'))!== null){
+      let cartData=JSON.parse(localStorage.getItem("shopNowCart"))
+      console.log('cartData',cartData)
+      if(!cartData.includes(product.id)){
+        cartData.push(product.id)
+        setCart(cartData) 
+        localStorage.setItem('shopNowCart',JSON.stringify(cartData))
       }else{
-        setAlert({show:true,message:'Already in your chart'})
+        setAlert({show:true,message:'Already in your cart'})
       }
      
     }else{
-      let chart = [product.id]
-      setChart(chart)  
-      localStorage.setItem('shopNowChart',JSON.stringify(chart))
+      let cart = [product.id]
+      setCart(cart)  
+      localStorage.setItem('shopNowCart',JSON.stringify(cart))
     }
   }
   return (
@@ -83,7 +83,7 @@ function SingleProduct() {
             </div>
             <div className='d-flex align-items-start gap-3'>
               <button className='btn btn-primary'>Buy Now</button>
-              <button className='btn btn-secondary' onClick={handleAddToChart}>Add To Chart</button>
+              <button className='btn btn-secondary' onClick={handleAddToCart}>Add To Chart</button>
             </div>
             <div className='d-flex gap-2 mt-3'>
               <div className='text-center d-flex flex-column'>

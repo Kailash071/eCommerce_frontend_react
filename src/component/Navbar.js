@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom"
 import ThemeContext from "../context/ThemeContext"
 import { useDispatch, useSelector } from "react-redux"
 import { clearUserAndToken,useUserSelector} from "../reducers/userReducer"
-import ChartContext from "../context/chartContext"
+import CartContext from "../context/CartContext"
 function Navbar() {
     let{ theme,setTheme }= useContext(ThemeContext)
     const dispatch = useDispatch()
     const user  = useSelector(useUserSelector)
-    let {chart} = useContext(ChartContext)
-    console.log('chart in navbar',chart)
+    let {cart} = useContext(CartContext)
+    console.log('cart in navbar',cart)
   const themeChange = () => {
     if (theme === "light") {
       setTheme("dark")
@@ -147,7 +147,7 @@ function Navbar() {
               <i className="bi bi-cart-dash-fill"></i>
               </span>
               <span className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark`}>
-              {chart.length}
+              {cart.length}
                 <span className="visually-hidden"></span>
               </span>
             </button>
