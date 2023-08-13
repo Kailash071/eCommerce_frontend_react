@@ -51,7 +51,7 @@ function CartItem({ productId, handleItemUpdate }) {
               {product.description}
             </p>
             <p className="availability">In stock</p>
-            <p className="delivery text-body-secondary">Free Delivery</p>
+            <p className="delivery">Free Delivery</p>
             <p className="rating">Rating: 5</p>
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div className="">
@@ -64,7 +64,7 @@ function CartItem({ productId, handleItemUpdate }) {
                   role="button"
                   onClick={() => handleQuantityChange(quantity - 1)}
                 >
-                  <i className="bi bi-dash-circle-fill"></i>
+                  <i className="bi bi-dash-circle"></i>
                 </span>
                 <label>{quantity}</label>
                 <span
@@ -72,7 +72,7 @@ function CartItem({ productId, handleItemUpdate }) {
                   role="button"
                   onClick={() => handleQuantityChange(quantity + 1)}
                 >
-                  <i className="bi bi-plus-circle-fill"></i>
+                  <i className="bi bi-plus-circle"></i>
                 </span>
               </div>
             </div>

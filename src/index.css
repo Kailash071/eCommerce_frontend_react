@@ -44,3 +44,16 @@ input[type=number]::-webkit-outer-spin-button {
   height: 100%;
   /* object-fit: cover; */
 }
+
+.theme-dark  .card{
+  color: #fff!important;
+  background-color: RGBA(33,37,41,var(--bs-bg-opacity,1))!important;
+  --bs-border-opacity: 1;
+  border-color: rgba(var(--bs-light-rgb),var(--bs-border-opacity))!important;
+}
+.theme-light  .card {
+  color: #000!important;
+  background-color: RGBA(248,249,250,var(--bs-bg-opacity,1))!important;
+  --bs-border-opacity: 1;
+    border-color: rgba(var(--bs-dark-rgb),var(--bs-border-opacity))!important;
+}
