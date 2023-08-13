@@ -23,7 +23,8 @@ function CartItem({productId,handleItemUpdate}) {
   };
 
   const handleCartItemDelete = () => {
-    const updatedCart = cart.filter(item => item.id !== productId);
+    const updatedCart = cart.filter(item => item !== productId);
+    localStorage.setItem('shopNowCart',JSON.stringify(updatedCart))
     setCart(updatedCart);
   };
 
@@ -52,21 +53,21 @@ function CartItem({productId,handleItemUpdate}) {
           <p className="card-text description text-truncate">
            {product.description}
           </p>
-          <p className="card-text availability">In stock</p>
-          <p className="card-text delivery text-body-secondary">
+          <p className="availability">In stock</p>
+          <p className="delivery text-body-secondary">
             Free Delivery
           </p>
-          <p className="card-text rating">Rating: 5</p>
-          <div className="row align-items-center border mb-2">
-            <p className="col align-self-center"><span>Price : </span> <FormatPrice price={product.price} /></p>
-            <div className='col align-self-center'>
-            <span>Quantity : </span>
-            <span className='btn rounded' onClick={handleMinusQuantity}><i className='bi bi-dash-circle-fill'></i></span>
+          <p className="rating">Rating: 5</p>
+          <div className="d-flex  justify-content-between align-items-center mb-2">
+            <div className=""><span>Price : </span> <FormatPrice price={product.price} /></div>
+            <div className=''>
+            <span className=''>Quantity : </span>
+            <span className='p-2  rounded' role="button" onClick={handleMinusQuantity}><i className='bi bi-dash-circle-fill'></i></span>
               <label >{quantity}</label>
-            <span className='btn rounded' onClick={handlePlusQuanity}><i className='bi bi-plus-circle-fill'></i></span>
+            <span className='p-2 rounded' role='button' onClick={handlePlusQuanity}><i className='bi bi-plus-circle-fill'></i></span>
             </div>
           </div>
-          <button className="delete col btn btn-outline-danger" onClick={handleCartItemDelete}>Delete</button>
+          <button className="delete col btn btn-sm btn-outline-danger" onClick={handleCartItemDelete}>Delete</button>
         </div>
       </div>
     </div>
