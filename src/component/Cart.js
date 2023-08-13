@@ -2,15 +2,22 @@ import React, { useContext, useEffect, useState } from "react"
 import CartItem from "./CartItem"
 import CartContext from "../context/CartContext"
 import { useGetProductsQuery } from "../reducers/productsSlice"
+import { useUserTokenSelector } from "../reducers/userReducer"
+import { useSelector } from "react-redux"
+import AlertContext from "../context/AlertContext"
+import { useNavigate } from "react-router-dom"
 function Cart() {
+  const userToken = useSelector(useUserTokenSelector)
+  const { setAlert } = useContext(AlertContext)
   const { cart } = useContext(CartContext)
-  console.log('cart',cart)
+  const navigate = useNavigate();
+  console.log('cart', cart)
   const { data: products, isSuccess } = useGetProductsQuery('getProducts');
   const [cartProducts, setCartProducts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  
+
   useEffect(() => {
-    if (isSuccess  && cart.length > 0) {
+    if (isSuccess && cart.length > 0) {
       const fetchedProducts = cart.map((productId) => products.entities[productId]);
       setCartProducts(fetchedProducts);
     }
@@ -35,6 +42,20 @@ function Cart() {
     });
     setTotalAmount(newTotalAmount);
   }, [cartProducts]);
+  const handleCartBuyButton = (e) => {
+    e.preventDefault()
+    if (!userToken) {
+      setAlert({ show: true, message: 'Before proceed to buy, login please' })
+      navigate('/login')
+    } else {
+      let bodyData = {
+        userToken: userToken,
+        totalPrice: totalAmount,
+        items: cartProducts,
+      }
+      console.log('data to submit on buy', bodyData)
+    }
+  }
   return (
     <div className="container">
       <div className="row p-1 mb-3">
@@ -68,9 +89,9 @@ function Cart() {
                   <div className="card-title"> Total ( {cartProducts.length} Items ) : {totalAmount.toFixed(2)}</div>
                   <p className="card-text"></p>
                   <div className="text-center">
-                    <a href="/buy" className="btn btn-primary">
+                    <button onClick={handleCartBuyButton} className="btn btn-primary">
                       Proceed to Buy
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
