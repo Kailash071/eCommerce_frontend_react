@@ -22,8 +22,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
         }),
         providesTags:[{type:'User',id:'LIST'}]
       }),
-      getUserById:builder.query({
-        query:(userId)=>`getUser/?userId=${userId?userId:''}`,
+      getUserByToken:builder.query({
+        query:(userToken)=>`getUser/?userToken=${userToken?userToken:''}`,
         // transformResponse:(responseData)=>{
         //   console.log('repsonse-->',responseData)
         //   //      return userAdapter.setAll(initialState,responseData)
@@ -84,4 +84,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByIdQuery,useSendLoginOtpMutation,useVerifyLoginOtpMutation,useForgetPasswordMutation} = userApiSlice;
+export const {useGetUserQuery,useLoginMutation,useRegisterMutation,useUpdateProfileMutation,useUpdatePasswordMutation,useGoogleAuthMutation,useDeleteAccountMutation,useGetUserByTokenQuery,useSendLoginOtpMutation,useVerifyLoginOtpMutation,useForgetPasswordMutation} = userApiSlice;

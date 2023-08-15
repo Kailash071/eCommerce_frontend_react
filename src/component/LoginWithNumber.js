@@ -20,13 +20,11 @@ const LoginWithNumber = () => {
     name: name,
     phoneNumber: phoneNumber
   }
-  console.log('sendData', sendData)
   const canSend = Object.values(sendData).every(Boolean)
   const handleSendOtp = async (e) => {
     e.preventDefault()
     if (canSend) {
       let otpResult = await sendLoginOtp(sendData)
-      console.log('otpResult',otpResult.data)
       if(otpResult.data.success){
         setAlert({show:true,message:otpResult.data.message})
         setOtpSent(true)
@@ -60,14 +58,12 @@ const LoginWithNumber = () => {
   const canVerify = Object.values(otp).every(Boolean)
   const handleVerifyOtp = async (e)=>{
     e.preventDefault()
-    console.log('otp--->',otp)
     const body = {
       ...sendData,
       otp:otp
     }
     if(canVerify){
       const  verifyResult =await  verifyLoginOtp(body)
-      console.log('verifyResult',verifyResult)
       if(verifyResult.data.success){
         let user = {
           _id:verifyResult.data.data.user._id,

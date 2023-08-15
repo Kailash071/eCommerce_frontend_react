@@ -10,7 +10,6 @@ function Product({productId}) {
       product:data?.entities[productId]
     })
   }) 
-  console.log('product',product)
   return (
     <>
          <div className="col-6 col-lg-2 col-md-2 col-sm-3 " >

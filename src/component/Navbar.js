@@ -9,20 +9,16 @@ function Navbar() {
     const dispatch = useDispatch()
     const user  = useSelector(useUserSelector)
     let {cart} = useContext(CartContext)
-    console.log('cart in navbar',cart)
   const themeChange = () => {
     if (theme === "light") {
       setTheme("dark")
       localStorage.setItem('theme','dark')
-      console.log('theme change to',theme)  
     } else {
       setTheme("light")
-      console.log('theme change to',theme)
       localStorage.setItem('theme','light')
     }
   }
   const handleLogout = ()=>{
-    localStorage.removeItem('user')
     localStorage.removeItem('userToken')
     dispatch(clearUserAndToken())
   }
