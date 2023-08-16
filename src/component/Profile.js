@@ -7,7 +7,7 @@ import { useDeleteAccountMutation, useUpdateProfileMutation } from "../reducers/
 
 const Profile = () => {
   const user = useSelector(useUserSelector)
-  const [inputs, setInputs] = useState(user)
+  const [inputs, setInputs] = useState(user||{})
   const { setAlert } = useContext(AlertContext)
   const navigate = useNavigate()
   const [update, isLoading] = useUpdateProfileMutation()
@@ -16,10 +16,17 @@ const Profile = () => {
   useEffect(() => {
     setInputs(user)
   }, [user])
-
+// let formData = new FormData()
   const handleInputChange = (e) => {
     e.preventDefault()
-    setInputs({ ...inputs, [e.target.name]: e.target.value })
+    if(e.target.name === 'photo'){
+      console.log('e.target.files[0]',e.target.files[0])
+      setInputs({ ...inputs, [e.target.name]: e.target.files[0]})
+      // formData.append( e.target.name, e.target.files[0]);
+    }else{
+      setInputs({ ...inputs, [e.target.name]: e.target.value })
+      // formData.append( e.target.name, e.target.files[0]);
+    }
   }
   const handleCancelClick = (e) => {
     e.preventDefault()
@@ -27,7 +34,22 @@ const Profile = () => {
   }
   const handleUpdateClick = async (e) => {
     e.preventDefault()
-    const updateResult = await update(inputs)
+    // console.log('inputs',inputs)
+    // const updateResult = await update(inputs)
+    // let formData = new FormData()
+    // const entries = Object.entries(inputs);
+    // console.log('entries',entries)
+    // for (const [key, value] of entries) {
+      //   formData.append(`${key}`, value);
+      //   console.log('key value',key ,':',value)
+      // }
+     let formData = new FormData(document.getElementById('uploadProfileForm'))
+    for (const input in inputs) {
+        formData.set(input, inputs[input]);
+      }
+    // console.log('formData file',formData.get('photo'))
+    // console.log('formData file',formData.get('name'))
+    const updateResult = await update(formData)
     if (updateResult.data.success) {
       dispatch(UpdateUserData(updateResult.data.data))
 
@@ -36,7 +58,6 @@ const Profile = () => {
     } else {
       setAlert({ show: true, message: updateResult.data.message })
     }
-    setInputs(user)
   }
   const handleAccountDelete = async (e)=>{
     e.preventDefault()
@@ -55,7 +76,7 @@ const Profile = () => {
       <div className="container d-flex flex-column justify-content-center align-items-center my-5">
         <div className="shadow-lg rounded p-3">
           <h5 className="text-center">Account Detail</h5>
-          <form>
+          <form onSubmit={handleUpdateClick} id="uploadProfileForm" encType="multipart/form-data">
             <div className="mb-2">
               <label htmlFor="fullName" className="form-label">
                 Full Name
@@ -81,6 +102,7 @@ const Profile = () => {
                 name="email"
                 placeholder="Email"
                 value={inputs.email}
+                required
                 onChange={handleInputChange}
               />
             </div>
@@ -112,7 +134,7 @@ const Profile = () => {
                   onChange={handleInputChange}
                 />
                 <img
-                  src={`http://localhost:5000/public/profiles/${inputs.photo}`}
+                  src={`${inputs.photo.name}`}
                   alt="profile"
                 />
               </div>
@@ -121,7 +143,7 @@ const Profile = () => {
               <button
                 className="btn btn-primary"
                 disabled={!isLoading}
-                onClick={handleUpdateClick}
+                type="submit"
               >
                 Update
               </button>
