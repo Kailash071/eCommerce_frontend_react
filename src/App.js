@@ -39,27 +39,27 @@ function App() {
   : JSON.parse(localStorage.getItem("shopNowCart")))
   const router = createBrowserRouter(
     createRoutesFromElements([
-      <Route element={<BodyLayout />}errorElement={<ErrorElement />}>
-        <Route
-          index
-          path="/"
-          element={<Home />}
-          errorElement={<ErrorElement />}
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/loginWithPhoneNumber" element={<LoginWithNumber/>} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/forgetPassword" element={<Forgetpassword />} />
-        <Route path="/todaysDeal" element={<TodaysDeal />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/products" errorElement={<ErrorElement />} >
-          <Route  index element={<Products/>}/>
-          <Route path=":productId" element={<SingleProduct />} />
+      <Route path="/" errorElement={<ErrorElement />}>
+        <Route element={<BodyLayout />}>
+          <Route
+            index
+            element={<Home />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/loginWithPhoneNumber" element={<LoginWithNumber />} />
+          <Route path="/signUp" element={<Signup />} />
+          <Route path="/forgetPassword" element={<Forgetpassword />} />
+          <Route path="/todaysDeal" element={<TodaysDeal />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/products" >
+            <Route index element={<Products />} />
+            <Route path=":productId" element={<SingleProduct />} />
+          </Route>
         </Route>
-        <Route element={<AuthLayout/>} errorElement={<ErrorElement/>}>
-          <Route path="/user/profile" element={<Profile/>}/>
-          <Route path="/user/changePassword" element={<ChangePassword/>}/>
-          <Route path="buy"/>
+        <Route element={<AuthLayout />} >
+          <Route path="/user/profile" element={<Profile />} />
+          <Route path="/user/changePassword" element={<ChangePassword />} />
+          <Route path="buy" />
         </Route>
         <Route path="*" errorElement={<ErrorElement />} />
       </Route>,
