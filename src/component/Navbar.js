@@ -119,8 +119,8 @@ function Navbar() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <span>
-              <i className="bi bi-person-circle"></i>
+             <span>
+              {user.photo === ''?<i className="bi bi-person-circle"></i>:<img src={`${process.env.REACT_APP_NODE_BASE_URL}/profiles/${user.photo}`} className="img img-fluid rounded-circle br-5" alt="profile not found" width={30} height={30}/>}
                </span>
             </NavLink>
               <ul className="dropdown-menu">

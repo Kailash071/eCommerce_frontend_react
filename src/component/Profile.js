@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom"
 import { UpdateUserData, clearUserAndToken, useUserSelector } from "../reducers/userReducer"
 import AlertContext from "../context/AlertContext"
 import { useDeleteAccountMutation, useUpdateProfileMutation } from "../reducers/userSlice"
-
+import PhoneInput from "react-phone-input-2"
+import 'react-phone-input-2/lib/style.css'
 const Profile = () => {
   const user = useSelector(useUserSelector)
   const [inputs, setInputs] = useState(user||{})
+  const [phoneNumber,setPhoneNumber] = useState(user.phoneNumber || '')
   const { setAlert } = useContext(AlertContext)
   const navigate = useNavigate()
   const [update, isLoading] = useUpdateProfileMutation()
@@ -21,10 +23,10 @@ const Profile = () => {
     e.preventDefault()
     if(e.target.name === 'photo'){
       console.log('e.target.files[0]',e.target.files[0])
-      setInputs({ ...inputs, [e.target.name]: e.target.files[0]})
+      setInputs({ ...inputs, [e.target.name]: e.target.files[0],[phoneNumber]:phoneNumber})
       // formData.append( e.target.name, e.target.files[0]);
     }else{
-      setInputs({ ...inputs, [e.target.name]: e.target.value })
+      setInputs({ ...inputs, [e.target.name]: e.target.value,[phoneNumber]:phoneNumber })
       // formData.append( e.target.name, e.target.files[0]);
     }
   }
@@ -46,9 +48,10 @@ const Profile = () => {
      let formData = new FormData(document.getElementById('uploadProfileForm'))
     for (const input in inputs) {
         formData.set(input, inputs[input]);
+        formData.set("phoneNumber", phoneNumber);
       }
     // console.log('formData file',formData.get('photo'))
-    // console.log('formData file',formData.get('name'))
+    //  console.log('formData file',formData.get('phoneNumber'))
     const updateResult = await update(formData)
     if (updateResult.data.success) {
       dispatch(UpdateUserData(updateResult.data.data))
@@ -110,7 +113,7 @@ const Profile = () => {
               <label htmlFor="phoneNumber" className="form-label">
                 Phone Number
               </label>
-              <input
+              {/* <input
                 type="number"
                 className="form-control"
                 name="phoneNumber"
@@ -120,7 +123,23 @@ const Profile = () => {
                 placeholder="Phone Number"
                 value={inputs.phoneNumber}
                 onChange={handleInputChange}
-              />
+              /> */}
+                <PhoneInput
+              country={'in'}
+              value={phoneNumber}
+              onChange={(number) => setPhoneNumber(number)}
+              inputProps={{
+                name: 'phoneNumber',
+                required: true,
+                className: 'form-control',
+                autoFocus: true,
+              }}
+              inputStyle={{
+                width: "100%",
+              }}
+              dropdownStyle={{
+                color: 'black'
+              }}/>
             </div>
             <div className="mb-2">
               <label htmlFor="photo" className="form-label">
@@ -132,10 +151,6 @@ const Profile = () => {
                   name="photo"
                   id="photo"
                   onChange={handleInputChange}
-                />
-                <img
-                  src={`${inputs.photo.name}`}
-                  alt="profile"
                 />
               </div>
             </div>
