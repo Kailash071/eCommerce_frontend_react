@@ -40,7 +40,7 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements([
       <Route path="/" errorElement={<ErrorElement />}>
-        <Route element={<BodyLayout />}>
+        <Route element={<BodyLayout />} errorElement={<ErrorElement />}>
           <Route
             index
             element={<Home />}
@@ -56,17 +56,17 @@ function App() {
             <Route path=":productId" element={<SingleProduct />} />
           </Route>
         </Route>
-        <Route element={<AuthLayout />} >
+        <Route element={<AuthLayout />} errorElement={<ErrorElement />}>
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/changePassword" element={<ChangePassword />} />
           <Route path="buy" />
         </Route>
-        <Route path="*" errorElement={<ErrorElement />} />
+        <Route path="*" element={<ErrorElement/>} errorElement={<ErrorElement />} />
       </Route>,
     ])
   )
   return (
-    <div className={"theme-" + theme}>
+    <div className={"container-fluid theme-" + theme}>
       {/* <AuthContext.Provider value={{ userAuth, setUserAuth }}> */}
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>

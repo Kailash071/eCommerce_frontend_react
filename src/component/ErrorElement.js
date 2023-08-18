@@ -1,14 +1,43 @@
 import React from 'react'
-import { NavLink, useRouteError } from 'react-router-dom/dist'
-const ErrorElement = () => {
+import { useNavigate, useRouteError } from 'react-router-dom/dist'
+const ErrorElement = (props) => {
     const error = useRouteError()
+    const navigate = useNavigate()
+    const handleBack =(e)=>{
+      e.preventDefault()
+      navigate('/')
+    }
   return (
-    <div className='container'>
-       <h1>{error.status}</h1>
-        <p>{error.message}</p>
-        <p>
-          Go Back    {<NavLink to="/"/>}
-        </p>
+    <div className='container'>        
+    {!error?(<> 
+<div class="d-flex align-items-center justify-content-center vh-100">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold">404</h1>
+                <p class="fs-3"> <span class="text-danger">Opps!</span> Page not found.</p>
+                <p class="lead">
+                    The page you’re looking for doesn’t exist.
+                  </p>
+                <button className="btn btn-outline-success border-white" onClick={handleBack}>
+          Go back to home
+        </button>
+            </div>
+        </div>
+      </>):
+    (<>
+<div class="d-flex align-items-center justify-content-center vh-100">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold">404</h1>
+                <p class="fs-3"> <span class="text-danger">Opps!</span>{error.status}</p>
+                <p class="lead">
+                  {error.message}
+                  </p>
+                <button className="btn btn-outline-success border-white" onClick={handleBack}>
+          Go back to home
+        </button>
+            </div>
+        </div>
+    </>)
+    }
     </div>
   )
 }
