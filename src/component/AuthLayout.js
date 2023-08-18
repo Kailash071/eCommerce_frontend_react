@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Alert from "./Alert";
 import { useGetUserByTokenQuery } from "../reducers/userSlice";
 import AlertContext from "../context/AlertContext";
-
+import {BallTriangle} from 'react-loader-spinner'
 export const AuthLayout = () => {  
   const { alert } = useContext(AlertContext)
   const dispatch = useDispatch()
@@ -16,10 +16,10 @@ export const AuthLayout = () => {
   if(!userToken || userToken === ''){
     navigate('/login')
   }
-  const { data: userResult, isSuccess } = useGetUserByTokenQuery(userToken)
+  const { data: userResult, isSuccess,isLoading } = useGetUserByTokenQuery(userToken)
   const userSelector = useSelector(useUserTokenSelector)
   useEffect(() => {
-    if (isSuccess && !userSelector) {
+    if (isSuccess) {
       if (userResult && userResult.success) {
         let user = {
           _id: userResult.data.user._id,
@@ -38,13 +38,29 @@ export const AuthLayout = () => {
         }
       }
     }
-  }, [dispatch, isSuccess, userResult, userSelector]);
-  return (
-    <>
-      <Navbar />
-      {alert.show && <Alert message={alert.message} />}
-      <Outlet/>
-      <Footer />
-    </>
-  )
+  }, [isSuccess]);
+ return (
+  <>
+    {isLoading ? (
+      <BallTriangle
+        height={50}
+        width={50}
+        radius={5}
+        color="#4fa94d"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        visible={true}
+      />
+    ) : (
+      <>
+        <Navbar />
+        {alert.show && <Alert message={alert.message} />}
+        <Outlet />
+        <Footer />
+      </>
+    )}
+  </>
+);
+
 }

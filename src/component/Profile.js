@@ -9,7 +9,7 @@ import 'react-phone-input-2/lib/style.css'
 const Profile = () => {
   const user = useSelector(useUserSelector)
   const [inputs, setInputs] = useState(user||{})
-  const [phoneNumber,setPhoneNumber] = useState(user.phoneNumber || '')
+  const [phoneNumber,setPhoneNumber] = useState(user?.phoneNumber || '')
   const { setAlert } = useContext(AlertContext)
   const navigate = useNavigate()
   const [update, isLoading] = useUpdateProfileMutation()

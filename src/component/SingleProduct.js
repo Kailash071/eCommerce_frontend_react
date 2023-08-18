@@ -4,16 +4,15 @@ import FormatPrice from './FormatPrice';
 import { useGetProductsQuery } from '../reducers/productsSlice';
 import CartContext from '../context/CartContext';
 import AlertContext from '../context/AlertContext';
-
+import {BallTriangle} from 'react-loader-spinner'
 function SingleProduct() {
   const { productId } = useParams()
   const {setCart} = useContext(CartContext)
   const {setAlert} = useContext(AlertContext)
   //  console.log('params id',productId)
-  const { product } = useGetProductsQuery('getProducts', {
+  const { product ,isLoading} = useGetProductsQuery('getProducts', {
     selectFromResult: ({ data }) => ({
-      product: data?.entities[productId],
-      // isLoading
+      product: data?.entities[productId]
     })
   })
   console.log('single product', product)
@@ -45,6 +44,19 @@ function SingleProduct() {
   }
   return (
     <>
+     {isLoading ? (
+      <BallTriangle
+        height={50}
+        width={50}
+        radius={5}
+        color="#4fa94d"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        visible={true}
+      />
+    ) : (
+      <>
       <div className='container-fluid mt-5 mb-3'>
         <div className='product text-center row'>
           <div className='imagesDiv col'>
@@ -102,6 +114,8 @@ function SingleProduct() {
           </div>
         </div>
       </div>
+      </>
+      )}
     </>
   )
 }

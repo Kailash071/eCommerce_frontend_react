@@ -11,7 +11,7 @@ const ChangePassword = () => {
         currentPassword: '',
         newPassword:'',
         confirmNewPassword:'',
-        _id:user._id
+        _id:user?._id
     }
     const [inputs, setInputs]  = useState(formInitial)
    const {setAlert} = useContext(AlertContext)

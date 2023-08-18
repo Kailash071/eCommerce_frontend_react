@@ -6,13 +6,14 @@ import { useUserTokenSelector } from "../reducers/userReducer"
 import { useSelector } from "react-redux"
 import AlertContext from "../context/AlertContext"
 import { useNavigate } from "react-router-dom"
+import {BallTriangle} from 'react-loader-spinner'
 function Cart() {
   const userToken = useSelector(useUserTokenSelector)
   const { setAlert } = useContext(AlertContext)
   const { cart } = useContext(CartContext)
   const navigate = useNavigate();
   console.log('cart', cart)
-  const { data: products, isSuccess } = useGetProductsQuery('getProducts');
+  const { data: products, isSuccess,isLoading } = useGetProductsQuery('getProducts');
   const [cartProducts, setCartProducts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -58,6 +59,19 @@ function Cart() {
   }
   return (
     <div className="container">
+    {isLoading ? (
+      <BallTriangle
+        height={50}
+        width={50}
+        radius={5}
+        color="#4fa94d"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        visible={true}
+      />
+    ) :(
+      <>
       <div className="row p-1 mb-3">
         {cart.length > 0 ? (
           <>
@@ -101,6 +115,7 @@ function Cart() {
           <p className="text-center">No items added in cart</p>
         )}
       </div>
+      </>)}
     </div>
   );
 }
