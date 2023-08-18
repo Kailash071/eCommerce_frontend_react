@@ -4,15 +4,19 @@ import 'react-phone-input-2/lib/style.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForgetPasswordMutation } from '../reducers/userSlice'
 import AlertContext from '../context/AlertContext'
+import ErrorElement from "./ErrorElement"
 function Forgetpassword() {
   const { setAlert } = useContext(AlertContext)
   const [email, setEmail] = useState('')
   const [phoneNumber,setPhoneNumber] = useState('')
-  const [sendNewPassword,isLoading] = useForgetPasswordMutation()
+  const [sendNewPassword,isLoading,isError] = useForgetPasswordMutation()
   const navigate = useNavigate()
   const sendData = {
     email: email,
     phoneNumber: phoneNumber
+  }
+  if(isError){
+    return <ErrorElement message="Something went wrong!!" />
   }
   const handleSubmitClick =  async (e)=>{
     e.preventDefault()

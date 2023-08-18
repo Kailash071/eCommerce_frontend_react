@@ -6,14 +6,15 @@ import AlertContext from "../context/AlertContext"
 import { useDeleteAccountMutation, useUpdateProfileMutation } from "../reducers/userSlice"
 import PhoneInput from "react-phone-input-2"
 import 'react-phone-input-2/lib/style.css'
+import ErrorElement from "./ErrorElement"
 const Profile = () => {
   const user = useSelector(useUserSelector)
   const [inputs, setInputs] = useState(user||{})
   const [phoneNumber,setPhoneNumber] = useState(user?.phoneNumber || '')
   const { setAlert } = useContext(AlertContext)
   const navigate = useNavigate()
-  const [update, isLoading] = useUpdateProfileMutation()
-  const [deleteAccount,isDeleteLoading] = useDeleteAccountMutation()
+  const [update, isLoading,isError] = useUpdateProfileMutation()
+  const [deleteAccount,isDeleteLoading,isDeleteError] = useDeleteAccountMutation()
   const dispatch = useDispatch()
   useEffect(() => {
     setInputs(user)
@@ -73,6 +74,9 @@ const Profile = () => {
     } else {
       setAlert({ show: true, message: result.data.message })
     }
+  }
+  if(isError|| isDeleteError){
+    return <ErrorElement message={`Something Went Wrong`} />
   }
   return (
     <>

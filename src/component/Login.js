@@ -5,12 +5,13 @@ import { useGoogleAuthMutation, useLoginMutation } from "../reducers/userSlice"
 import { setUserData } from "../reducers/userReducer"
 import { useDispatch } from "react-redux"
 import { useGoogleLogin } from '@react-oauth/google';
+import ErrorElement from "./ErrorElement"
 function Login() {
   const formInitialValue = {email:'',password:''}
   const [loginFormInputs, setLoginFormInputs] = useState(formInitialValue)
   const {setAlert} = useContext(AlertContext)
-  const [login,isLoading] = useLoginMutation()
-  const [googleAuthCode,isLoadingGoogleAuthCode] = useGoogleAuthMutation()
+  const [login,isLoading,isError] = useLoginMutation()
+  const [googleAuthCode,isLoadingGoogleAuthCode,isGooleError] = useGoogleAuthMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const canLogin = Object.values(loginFormInputs).every(Boolean)
@@ -81,6 +82,9 @@ function Login() {
       setAlert({show:true,message:'Something Went Wrong!!'})
       },  
   });
+  if(isError|| isGooleError){
+    return <ErrorElement message="Something went wrong!!" />
+  }
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center my-5">
       <div className="shadow-lg rounded p-3">

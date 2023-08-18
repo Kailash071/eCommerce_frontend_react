@@ -6,6 +6,7 @@ import image3 from "../assets/home/image3.jpg"
 import { useGetProductsQuery } from "../reducers/productsSlice"
 import Product from "./Product"
 import {BallTriangle} from 'react-loader-spinner'
+import ErrorElement from "./ErrorElement"
 function Home() {
   let swiperImages = [
     {
@@ -21,7 +22,7 @@ function Home() {
       alt:""
     }
   ]
-  const {data:products,isLoading,isSuccess,isError,error} = useGetProductsQuery('getProducts')
+  const {data:products,isLoading,isSuccess,isError} = useGetProductsQuery('getProducts')
   console.log('products',products)
   let content;
   if(isSuccess){
@@ -35,7 +36,7 @@ function Home() {
           }
   }
   else if(isError){
-    content = <p>{error}</p>
+    return <ErrorElement message="Something went wrong!!" />
   }
   return (
     <>

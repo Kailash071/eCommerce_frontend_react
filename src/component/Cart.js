@@ -7,16 +7,16 @@ import { useSelector } from "react-redux"
 import AlertContext from "../context/AlertContext"
 import { useNavigate } from "react-router-dom"
 import {BallTriangle} from 'react-loader-spinner'
+import ErrorElement from "./ErrorElement"
 function Cart() {
   const userToken = useSelector(useUserTokenSelector)
   const { setAlert } = useContext(AlertContext)
   const { cart } = useContext(CartContext)
   const navigate = useNavigate();
   console.log('cart', cart)
-  const { data: products, isSuccess,isLoading } = useGetProductsQuery('getProducts');
+  const { data: products, isSuccess,isLoading,isError } = useGetProductsQuery('getProducts');
   const [cartProducts, setCartProducts] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-
   useEffect(() => {
     if (isSuccess && cart.length > 0) {
       const fetchedProducts = cart.map((productId) => products.entities[productId]);
@@ -56,6 +56,9 @@ function Cart() {
       }
       console.log('data to submit on buy', bodyData)
     }
+  }
+   if(isError){
+    return <ErrorElement message="Something went wrong!!" />
   }
   return (
     <div className="container">
@@ -112,7 +115,7 @@ function Cart() {
             </div>
           </>
         ) : (
-          <p className="text-center">No items added in cart</p>
+          <div className="col text-center mt-5 mb-5"><h3 className="m-5">No items added in cart</h3></div>
         )}
       </div>
       </>)}

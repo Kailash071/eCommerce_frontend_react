@@ -5,11 +5,11 @@ const ErrorElement = (props) => {
     const navigate = useNavigate()
     const handleBack =(e)=>{
       e.preventDefault()
-      navigate('/')
+      navigate(-1)
     }
   return (
     <div className='container'>        
-    {!error?(<> 
+    {!error&&!props.message?(<> 
 <div class="d-flex align-items-center justify-content-center vh-100">
             <div class="text-center">
                 <h1 class="display-1 fw-bold">404</h1>
@@ -18,7 +18,7 @@ const ErrorElement = (props) => {
                     The page you’re looking for doesn’t exist.
                   </p>
                 <button className="btn btn-outline-success border-white" onClick={handleBack}>
-          Go back to home
+          Go back
         </button>
             </div>
         </div>
@@ -27,12 +27,12 @@ const ErrorElement = (props) => {
 <div class="d-flex align-items-center justify-content-center vh-100">
             <div class="text-center">
                 <h1 class="display-1 fw-bold">404</h1>
-                <p class="fs-3"> <span class="text-danger">Opps!</span>{error.status}</p>
+                <p class="fs-3"> <span class="text-danger">Opps!</span>{error?.status}</p>
                 <p class="lead">
-                  {error.message}
+                  {props.message?props.message:error.message}
                   </p>
                 <button className="btn btn-outline-success border-white" onClick={handleBack}>
-          Go back to home
+          Go back
         </button>
             </div>
         </div>

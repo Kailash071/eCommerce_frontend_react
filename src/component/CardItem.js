@@ -3,7 +3,7 @@ import ThemeContext from "../context/ThemeContext"
 function CardItem(props) {
   let{ theme }= useContext(ThemeContext)
   return (
-      <div className={`card m-2 text-bg-${theme} border-${theme=='dark'?'light':'dark'}`} >
+      <div className={`card m-2 text-bg-${theme} border-${theme==='dark'?'light':'dark'}`} >
         <img
           src={props.src}
           className="card-img-top"

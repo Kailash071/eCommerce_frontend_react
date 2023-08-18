@@ -8,12 +8,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { useGetUserByTokenQuery } from "../reducers/userSlice"
 import { setUserData, useUserTokenSelector } from "../reducers/userReducer"
 import {BallTriangle} from 'react-loader-spinner'
-
+import ErrorElement from "./ErrorElement"
 const BodyLayout = () => {
   const { alert } = useContext(AlertContext)
   const dispatch = useDispatch()
   const userToken = localStorage.getItem('userToken');
-  const { data: userResult, isSuccess,isLoading } = useGetUserByTokenQuery(userToken)
+  const { data: userResult, isSuccess,isLoading,isError } = useGetUserByTokenQuery(userToken)
   const userSelector = useSelector(useUserTokenSelector)
   useEffect(() => {
     if (isSuccess) {
@@ -36,7 +36,9 @@ const BodyLayout = () => {
       }
     }
   }, [isSuccess]);
-
+  if(isError){
+    return <ErrorElement message="Something went wrong!!" />
+  }
    return (
   <>
     {isLoading ? (

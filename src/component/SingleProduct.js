@@ -5,12 +5,13 @@ import { useGetProductsQuery } from '../reducers/productsSlice';
 import CartContext from '../context/CartContext';
 import AlertContext from '../context/AlertContext';
 import {BallTriangle} from 'react-loader-spinner'
+import ErrorElement from "./ErrorElement"
 function SingleProduct() {
   const { productId } = useParams()
   const {setCart} = useContext(CartContext)
   const {setAlert} = useContext(AlertContext)
   //  console.log('params id',productId)
-  const { product ,isLoading} = useGetProductsQuery('getProducts', {
+  const { product ,isLoading,isError} = useGetProductsQuery('getProducts', {
     selectFromResult: ({ data }) => ({
       product: data?.entities[productId]
     })
@@ -19,8 +20,8 @@ function SingleProduct() {
   // if(isLoading){
   //   return(<p>Loading...</p>)
   // }
-  if (!product) {
-    return (<p>{`No Product with ID ${productId}`}</p>);
+  if(isError|| !product){
+    return <ErrorElement message={`No Product with ID ${productId}`} />
   }
 
   const handleAddToCart = (e)=>{

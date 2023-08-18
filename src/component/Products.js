@@ -3,6 +3,7 @@ import {React}from "react"
 import Product from "./Product"
 import { useGetProductsQuery } from "../reducers/productsSlice"
 import {BallTriangle} from 'react-loader-spinner'
+import ErrorElement from "./ErrorElement"
 // const API = "https://fakestoreapi.com/products";
 function Products() {
   const {data:products,isLoading,isSuccess,isError,error} = useGetProductsQuery('getProducts')
@@ -11,8 +12,8 @@ function Products() {
  if(isSuccess){
           content = products.ids.map(productId=><Product key={productId} productId={productId}/>)
   }
-  else if(isError){
-    content = <p>{error}</p>
+  if(isError){
+    return <ErrorElement message={error} />
   }
   return (
     <>

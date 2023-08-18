@@ -6,6 +6,7 @@ import AlertContext from '../context/AlertContext'
 import { useSendLoginOtpMutation,useVerifyLoginOtpMutation } from '../reducers/userSlice'
 import { setUserData } from '../reducers/userReducer'
 import { useDispatch } from 'react-redux'
+import ErrorElement from "./ErrorElement"
 const LoginWithNumber = () => {
   const { setAlert } = useContext(AlertContext)
   const dispatch = useDispatch()
@@ -13,12 +14,15 @@ const LoginWithNumber = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [name, setName] = useState('')
   const [otpSent, setOtpSent] = useState(false)
-  const [sendLoginOtp,isLoading] = useSendLoginOtpMutation()
-  const [verifyLoginOtp,isVerifyLoading] = useVerifyLoginOtpMutation()
+  const [sendLoginOtp,isLoading,isError] = useSendLoginOtpMutation()
+  const [verifyLoginOtp,isVerifyLoading,isVerifyError] = useVerifyLoginOtpMutation()
   const navigate = useNavigate()
   const sendData = {
     name: name,
     phoneNumber: phoneNumber
+  }
+  if(isError|| isVerifyError){
+    <ErrorElement message="Something went wrong!!" />
   }
   const canSend = Object.values(sendData).every(Boolean)
   const handleSendOtp = async (e) => {

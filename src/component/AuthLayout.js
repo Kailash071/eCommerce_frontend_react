@@ -8,6 +8,7 @@ import Alert from "./Alert";
 import { useGetUserByTokenQuery } from "../reducers/userSlice";
 import AlertContext from "../context/AlertContext";
 import {BallTriangle} from 'react-loader-spinner'
+import ErrorElement from "./ErrorElement"
 export const AuthLayout = () => {  
   const { alert } = useContext(AlertContext)
   const dispatch = useDispatch()
@@ -16,7 +17,7 @@ export const AuthLayout = () => {
   if(!userToken || userToken === ''){
     navigate('/login')
   }
-  const { data: userResult, isSuccess,isLoading } = useGetUserByTokenQuery(userToken)
+  const { data: userResult, isSuccess,isLoading ,isError} = useGetUserByTokenQuery(userToken)
   const userSelector = useSelector(useUserTokenSelector)
   useEffect(() => {
     if (isSuccess) {
@@ -39,6 +40,9 @@ export const AuthLayout = () => {
       }
     }
   }, [isSuccess]);
+  if(isError){
+    return <ErrorElement message="Something went wrong!!" />
+  }
  return (
   <>
     {isLoading ? (

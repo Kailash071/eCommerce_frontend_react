@@ -4,12 +4,12 @@ import AlertContext from "../context/AlertContext"
 import { useRegisterMutation } from "../reducers/userSlice"
 import PhoneInput from "react-phone-input-2"
 import 'react-phone-input-2/lib/style.css'
-
+import ErrorElement from "./ErrorElement"
 function Signup() {
   const formInitialValue = {name: "",email:"",phoneNumber:"",password:""}
    const [inputs, setInputs] = useState(formInitialValue)
    const [phoneNumber,setPhoneNumber] = useState('')
-   const [register,isLoading] = useRegisterMutation()
+   const [register,isLoading,isError] = useRegisterMutation()
    const {setAlert} = useContext(AlertContext)
    const navigate = useNavigate();
    const canRegister = Object.values(inputs).every(Boolean)
@@ -18,7 +18,9 @@ function Signup() {
     setInputs({...inputs,[e.target.name]:e.target.value,phoneNumber:phoneNumber})
     // console.log('canRegister',canRegister)
   }
-
+  if(isError){
+    return <ErrorElement message={`Something Went Wrong`} />
+  }
   const handleRegisterSubmit = async (e)=>{
     e.preventDefault();
     inputs.phoneNumber = phoneNumber

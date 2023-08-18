@@ -2,15 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useGetProductsQuery } from '../reducers/productsSlice';
 import FormatPrice from './FormatPrice';
 import CartContext from '../context/CartContext';
-
+import ErrorElement from "./ErrorElement"
 function CartItem({ productId, handleItemUpdate }) {
   const { cart, setCart } = useContext(CartContext);
-  const { product } = useGetProductsQuery('getProducts', {
+  const { product,isError } = useGetProductsQuery('getProducts', {
     selectFromResult: ({ data }) => ({
       product: data?.entities[productId],
     }),
   });
-
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (newQuantity) => {
@@ -32,10 +31,13 @@ function CartItem({ productId, handleItemUpdate }) {
       quantity: quantity,
     });
   }, [quantity]);
+   if(isError){
+    return <ErrorElement message="Something went wrong!!" />
+  }
   return (
     <div className="product d-flex justify-content-center card mb-3">
       <div className="row g-0">
-        <div className="col-md-4 d-flex justify-content-center align-items-center">
+        <div className="col-md-4 d-flex justify-content-center align-items-center mt-1">
           <img
             src={product.image}
             className="img-fluid rounded-start"

@@ -4,7 +4,7 @@ import AlertContext from '../context/AlertContext'
 import { UpdateUserData, useUserSelector } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useUpdatePasswordMutation } from '../reducers/userSlice'
-
+ import ErrorElement from "./ErrorElement"
 const ChangePassword = () => {
     const user = useSelector(useUserSelector)
     const formInitial = {
@@ -17,7 +17,10 @@ const ChangePassword = () => {
    const {setAlert} = useContext(AlertContext)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [updatePassword,isLoading] = useUpdatePasswordMutation()
+    const [updatePassword,isLoading,isError] = useUpdatePasswordMutation()
+  if(isError){
+    return <ErrorElement message="Something went wrong!!" />
+  }
    const canUpdate = Object.values(inputs).every(Boolean)
     const handleInputChange = (e)=>{
         e.preventDefault();
