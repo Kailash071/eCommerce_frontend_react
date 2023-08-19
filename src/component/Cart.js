@@ -19,7 +19,7 @@ function Cart() {
   const [totalAmount, setTotalAmount] = useState(0);
   useEffect(() => {
     if (isSuccess && cart.length > 0) {
-      const fetchedProducts = cart.map((productId) => products.entities[productId]);
+      const fetchedProducts = cart.map((productId) => products?.entities[productId]);
       setCartProducts(fetchedProducts);
     }
   }, [isSuccess, cart, products, cartProducts.length]);

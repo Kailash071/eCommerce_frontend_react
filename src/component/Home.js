@@ -28,8 +28,8 @@ function Home() {
   if(isSuccess){
         content = []
           for (const product in products.entities) {
-            if (products.entities.hasOwnProperty.call(products.entities, product)) {
-              if(products.entities[product].featured){
+            if (products?.entities.hasOwnProperty.call(products?.entities, product)) {
+              if(products?.entities[product].featured){
                 content.push(<Product key={product} productId={product}/>)
               }
             }

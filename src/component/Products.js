@@ -10,7 +10,7 @@ function Products() {
   console.log('products',products)
   let content;
  if(isSuccess){
-          content = products.ids.map(productId=><Product key={productId} productId={productId}/>)
+          content = products?.ids.map(productId=><Product key={productId} productId={productId}/>)
   }
   if(isError){
     return <ErrorElement message={error} />
