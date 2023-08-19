@@ -83,20 +83,20 @@ function SingleProduct() {
               {product.description}
             </div>
             <div className='mb-1'>
-              Category: {product.categoryName}
+              Category: {product.category}
             </div>
             <div className='mb-1'>
               Rating : {product.rating}<span><i className="bi bi-star-fill ms-1"></i> </span>
             </div>
             <div className='mb-1'>
-             Available : In Stock
+             Available : In Stock ({product?.inStock})
             </div>
             <div className='fw-bold fs-5 mb-1'>
               Price : <FormatPrice price={product.price} />
             </div>
             <div className='d-flex align-items-start gap-3'>
-              <button className='btn btn-primary'>Buy Now</button>
-              <button className='btn btn-secondary' onClick={handleAddToCart}>Add To Chart</button>
+              <button className='btn btn-primary' disabled={product?.inStock<1}>Buy Now</button>
+              <button className='btn btn-secondary' disabled={product?.inStock<1} onClick={handleAddToCart}>Add To Chart</button>
             </div>
             <div className='d-flex gap-2 mt-3'>
               <div className='text-center d-flex flex-column'>

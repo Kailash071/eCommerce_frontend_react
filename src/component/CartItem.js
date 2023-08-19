@@ -3,7 +3,9 @@ import { useGetProductsQuery } from '../reducers/productsSlice';
 import FormatPrice from './FormatPrice';
 import CartContext from '../context/CartContext';
 import ErrorElement from "./ErrorElement"
+import AlertContext from '../context/AlertContext';
 function CartItem({ productId, handleItemUpdate }) {
+  const { setAlert } = useContext(AlertContext)
   const { cart, setCart } = useContext(CartContext);
   const { product,isError } = useGetProductsQuery('getProducts', {
     selectFromResult: ({ data }) => ({
@@ -13,7 +15,10 @@ function CartItem({ productId, handleItemUpdate }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (newQuantity) => {
-    if (newQuantity >= 1) {
+    if(newQuantity>product.inStock){
+      setAlert({show:true,message:"can't add more than in stock available"})
+    }
+    if (newQuantity >= 1&& newQuantity<=product.inStock) {
       setQuantity(newQuantity);
     }
   };
@@ -52,7 +57,7 @@ function CartItem({ productId, handleItemUpdate }) {
             <p className="card-text description text-truncate">
               {product.description}
             </p>
-            <p className="availability">In stock</p>
+            <p className="availability">In stock: {product?.inStock}</p>
             <p className="delivery">Free Delivery</p>
             <p className="rating">Rating: 5</p>
             <div className="d-flex justify-content-between align-items-center mb-2">
