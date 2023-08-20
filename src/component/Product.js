@@ -16,24 +16,24 @@ function Product({productId}) {
   return (
     <>
          <div className="col-6 col-lg-2 col-md-2 col-sm-3 " >
-      <NavLink to={`/products/${product.id}`}>
+      <NavLink to={`/products/${product?.id}`}>
         <div className="card" >
           <div className="text-center mt-1">
             <img
-              src={product.image}
-              alt={product.title}
+              src={product?.image}
+              alt={product?.title}
               height={200}
               className="card-img-top"
             />
           </div>
           <div className="card-body">
             <div className="d-flex justify-content-between">
-            <p className="card-text">iphone</p>
-            <p className="card-text"><FormatPrice price={product.price} /></p>
+            <p className="card-text text-truncate">{product?.title}</p>
+            <p className="card-text"><FormatPrice price={product?.price} /></p>
             </div>
             <div className="d-flex flex-nowrap">
-                <p className="card-text text-truncate w-75">{product.description}</p>
-                <p className="card-text ">{product.rating}<span><i className="bi bi-star-fill"></i> </span></p>
+                <p className="card-text text-truncate w-75">{product?.description}</p>
+                <p className="card-text ">{product?.rating}<span><i className="bi bi-star-fill"></i> </span></p>
             </div>
           </div>
         </div>
