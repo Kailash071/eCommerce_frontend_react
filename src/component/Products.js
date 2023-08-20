@@ -1,36 +1,53 @@
 import {React}from "react"
 // import { useProduct } from "../context/ProductContext"
 import Product from "./Product"
-import { useGetProductsQuery } from "../reducers/productsSlice"
+import { useGetProductsQuery,selectAllProducts } from "../reducers/productsSlice"
 import {BallTriangle} from 'react-loader-spinner'
 import ErrorElement from "./ErrorElement"
 import { selectAllCategorys} from "../reducers/categorySlice"
 import { useSelector } from "react-redux"
 import { useState } from "react"
+import { useEffect } from "react"
 // const API = "https://fakestoreapi.com/products";
 function Products() {
-  const {data:products,isLoading,isSuccess,isError,error} = useGetProductsQuery('getProducts')
+  // const {data:products,isLoading,isSuccess,isError,error} = useGetProductsQuery('getProducts')
   // console.log('products',products)
   const categorys = useSelector(selectAllCategorys)
-  const [selectedCategory, setSelectedCategory] = useState('Filter By Category');
-    const [selectedPriceRange, setSelectedPriceRange] = useState('Filter By Price Range');
-  let content;
- if(isSuccess){
-          content = products?.ids.map(productId=><Product key={productId} productId={productId}/>)
-  }
-  if(isError){
-    return <ErrorElement message={error} />
-  }
+  const products = useSelector(selectAllProducts)
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('all');
   const handleResetFilter = (e)=>{
     e.preventDefault()
-    setSelectedCategory('Filter By Category');
-    setSelectedPriceRange('Filter By Price Range');
+    setSelectedCategory('all');
+    setSelectedPriceRange('all');
   }
-  const handleApplyFilter = (e)=>{
-    e.preventDefault()
-    console.log('Selected Category:', selectedCategory);
-    console.log('Selected Price Range:', selectedPriceRange);
-  }
+  const [content, setContent] = useState([]);
+  
+  useEffect(() => {
+    let filteredProducts = [...products];
+    
+    if (selectedCategory !== 'all') {
+      filteredProducts = filteredProducts.filter(product => product.categoryId === selectedCategory);
+    }
+    
+    if (selectedPriceRange !== 'all') {
+      const [minPrice, maxPrice] = selectedPriceRange.split('-').map(Number);
+      filteredProducts = filteredProducts.filter(product => {
+        if (maxPrice) {
+          return product.price > minPrice && product.price <= maxPrice;
+        } else {
+          return product.price > minPrice;
+        }
+      });
+    }
+    setIsLoading(false)
+    setContent(
+      filteredProducts.map(product => (
+        <Product key={product._id} productId={product._id} />
+      ))
+    );
+  }, [selectedCategory, selectedPriceRange, products]);
   return (
     <>
      {isLoading ? (
@@ -51,13 +68,16 @@ function Products() {
     {/* filter */}
                 <div className="filter d-flex  justify-content-end align-items-center mb-3  flex-wrap gap-4">
                   <div className="d-flex gap-2 flex-wrap  justify-content-end align-items-center">
+                    <div className="d-flex gap-1 justify-content-center align-items-center">
+                    <label htmlFor="categorySelect">Filter By Category</label>
                     <select 
                       className="form-select"
+                      id="categorySelect"
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       style={{ width: "max-content" }}
                       aria-label="Default select example">
-                      <option >Filter By Category</option>
+                      <option value='all'>All</option>
                       {categorys && (<>
                         {
                           categorys.map(category => {
@@ -66,6 +86,9 @@ function Products() {
                         }
                       </>)}
                     </select>
+                    </div>
+                    <div className="d-flex gap-1 justify-content-center align-items-center">
+                    <label htmlFor="categorySelect">Filter By Price</label>
                     <select 
                       className="form-select" 
                       value={selectedPriceRange}
@@ -73,21 +96,22 @@ function Products() {
                       style={{ width: "max-content" }} 
                       aria-label="Default select example"
                     >
-                      <option >Filter By Price Range</option>
-                      <option value="500">Under  &#x20b9;500</option>
+                      <option value='all' >All</option>
+                      <option value="0-500">Under  &#x20b9;500</option>
                       <option value="500-1000"> &#x20b9;500 -  &#x20b9; 1000</option>
                       <option value="1000-2000"> &#x20b9;1000 -  &#x20b9;2000</option>
                       <option value="2000">Above  &#x20b9;2000</option>
                     </select>
+                    </div>
                   </div>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-outline-primary" onClick={handleApplyFilter}>Apply</button>
+                    {/* <button className="btn btn-outline-primary" onClick={handleApplyFilter}>Apply</button> */}
                     <button className="btn btn-outline-secondary" onClick={handleResetFilter}>Reset</button>
                   </div>
                 </div>
               </div>
       <div className="product row g-3 ">
-        {content}
+        {content.length>0?content:<ErrorElement message="Products not found" />}
       </div>
 
     </div>
