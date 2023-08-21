@@ -50,7 +50,6 @@ function App() {
           <Route path="/loginWithPhoneNumber" element={<LoginWithNumber />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/forgetPassword" element={<Forgetpassword />} />
-          <Route path="/todaysDeal" element={<TodaysDeal />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/products" >
             <Route index element={<Products />} />

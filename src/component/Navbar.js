@@ -49,11 +49,6 @@ function Navbar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/todaysDeal">
-                Today's Deal
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" to="/products">
                 Products
               </NavLink>
@@ -81,11 +76,6 @@ function Navbar() {
                }
               </>)}
               </ul>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/newRelease">
-                New Release
-              </NavLink>
             </li>
           </ul>
 
