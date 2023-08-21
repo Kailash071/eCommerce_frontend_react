@@ -24,6 +24,7 @@ import Profile from "./component/Profile"
 import ChangePassword from "./component/ChangePassword"
 import LoginWithNumber from "./component/LoginWithNumber"
 import CartContext from "./context/CartContext"
+import CategoryProducts from "./component/CategoryProducts"
 // register Swiper custom elements
 register()
 
@@ -55,6 +56,7 @@ function App() {
             <Route index element={<Products />} />
             <Route path=":productId" element={<SingleProduct />} />
           </Route>
+          <Route path="category/:categoryId" element={<CategoryProducts/>}/>
         </Route>
         <Route element={<AuthLayout />} errorElement={<ErrorElement />}>
           <Route path="/user/profile" element={<Profile />} />

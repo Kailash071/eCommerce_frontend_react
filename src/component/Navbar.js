@@ -4,11 +4,13 @@ import ThemeContext from "../context/ThemeContext"
 import { useDispatch, useSelector } from "react-redux"
 import { clearUserAndToken,useUserSelector} from "../reducers/userReducer"
 import CartContext from "../context/CartContext"
+import { selectAllCategorys} from "../reducers/categorySlice"
 function Navbar() {
     let{ theme,setTheme }= useContext(ThemeContext)
     const dispatch = useDispatch()
     const user  = useSelector(useUserSelector)
     let {cart} = useContext(CartContext)
+    const categorys = useSelector(selectAllCategorys)
   const themeChange = () => {
     if (theme === "light") {
       setTheme("dark")
@@ -56,7 +58,7 @@ function Navbar() {
                 Products
               </NavLink>
             </li>
-            {/* <li className="nav-item dropdown">
+            <li className="nav-item dropdown">
               <NavLink
                 className="nav-link dropdown-toggle"
                 to="#"
@@ -67,29 +69,19 @@ function Navbar() {
                 Category
               </NavLink>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink className="dropdown-item" to="/furnitures">
-                    Furnitures
+              {categorys && (<>
+               {
+                 categorys.map(category => {
+                  return(  <li key={category._id}> 
+                  <NavLink className="dropdown-item" to={`/category/${category._id}`}>
+                    {category.name}
                   </NavLink>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" to="/clothings">
-                    Clothings
-                  </NavLink>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" to="/electronics">
-                    Electronics
-                  </NavLink>
-                </li>
+                </li>)
+                 })
+               }
+              </>)}
               </ul>
-            </li> */}
+            </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/newRelease">
                 New Release

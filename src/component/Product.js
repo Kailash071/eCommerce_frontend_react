@@ -16,7 +16,7 @@ function Product({productId}) {
   return (
     <>
          <div className="col-6 col-lg-2 col-md-2 col-sm-3 " >
-      <NavLink to={`/products/${product?.id}`}>
+      <NavLink className="link-underline link-underline-opacity-0" to={`/products/${product?.id}`}>
         <div className="card" >
           <div className="text-center mt-1">
             <img
