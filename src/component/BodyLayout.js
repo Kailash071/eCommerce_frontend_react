@@ -9,8 +9,10 @@ import { useGetUserByTokenQuery } from "../reducers/userSlice"
 import { setUserData, useUserTokenSelector } from "../reducers/userReducer"
 import {BallTriangle} from 'react-loader-spinner'
 import ErrorElement from "./ErrorElement"
+import ThemeContext from "../context/ThemeContext"
 const BodyLayout = () => {
   const { alert } = useContext(AlertContext)
+  const {theme} = useContext(ThemeContext)
   const dispatch = useDispatch()
   const userToken = localStorage.getItem('userToken');
   const { data: userResult, isSuccess,isLoading,isError } = useGetUserByTokenQuery(userToken)
@@ -54,10 +56,12 @@ const BodyLayout = () => {
       />
     ) : (
       <>
+        <div className={"container-fluid theme-" + theme}>
         <Navbar />
         {alert.show && <Alert message={alert.message} />}
         <Outlet />
         <Footer />
+        </div>
       </>
     )}
   </>

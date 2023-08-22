@@ -9,8 +9,10 @@ import { useGetUserByTokenQuery } from "../reducers/userSlice";
 import AlertContext from "../context/AlertContext";
 import {BallTriangle} from 'react-loader-spinner'
 import ErrorElement from "./ErrorElement"
+import ThemeContext from "../context/ThemeContext";
 export const AuthLayout = () => {  
   const { alert } = useContext(AlertContext)
+  const {theme} = useContext(ThemeContext)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userToken = localStorage.getItem('userToken');
@@ -58,10 +60,12 @@ export const AuthLayout = () => {
       />
     ) : (
       <>
+      <div className={"container-fluid theme-" + theme}>
         <Navbar />
         {alert.show && <Alert message={alert.message} />}
         <Outlet />
         <Footer />
+        </div>
       </>
     )}
   </>

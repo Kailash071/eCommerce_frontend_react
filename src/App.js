@@ -73,8 +73,6 @@ function App() {
     ])
   )
   return (
-    <div className={"container-fluid theme-" + theme}>
-      {/* <AuthContext.Provider value={{ userAuth, setUserAuth }}> */}
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>
             <CartContext.Provider value={{ cart,setCart }}>
@@ -82,8 +80,6 @@ function App() {
             </CartContext.Provider>
           </AlertContext.Provider>
         </ThemeContext.Provider>
-      {/* </AuthContext.Provider> */}
-    </div>
   )
 }
 
