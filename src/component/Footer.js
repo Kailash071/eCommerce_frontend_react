@@ -126,7 +126,6 @@ function Footer() {
       {/* Copyright */}
       <div
         className="text-center p-4"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
       >
        <span> © 2023 Copyright </span>
         <Link className="text-reset " to="/">

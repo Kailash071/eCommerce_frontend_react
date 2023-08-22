@@ -27,6 +27,8 @@ import CartContext from "./context/CartContext"
 import CategoryProducts from "./component/CategoryProducts"
 import AdminLogin from "./component/adminComponent/Login"
 import Dashboard from "./component/adminComponent/Dashboard"
+import AdminBodyLayout from "./component/adminComponent/AdminBodyLayout"
+import AdminAuthLayout from "./component/adminComponent/AdminAuthLayout"
 // register Swiper custom elements
 register()
 
@@ -35,6 +37,11 @@ function App() {
     localStorage.getItem("theme") == null
       ? "light"
       : localStorage.getItem("theme")
+  )
+  const [adminTheme, setAdminTheme] = useState(
+    localStorage.getItem("adminTheme") == null
+      ? "light"
+      : localStorage.getItem("adminTheme")
   )
   const [alert, setAlert] = useState({ show: false, message: "" })
   const [cart,setCart] = useState(JSON.parse( localStorage.getItem("shopNowCart")) == null
@@ -65,15 +72,19 @@ function App() {
           <Route path="buy" />
         </Route>
         <Route path="/admin" errorElement={<ErrorElement />}>
-          <Route index element={<AdminLogin/>} />
-          <Route path="dashboard" element={<Dashboard/>} />
+          <Route element={<AdminBodyLayout/>} errorElement={<ErrorElement/>}>
+            <Route index element={<AdminLogin/>} />
+          </Route>
+          <Route element={<AdminAuthLayout />} errorElement={<ErrorElement />}>
+            <Route path="dashboard" element={<Dashboard/>} />
+          </Route>
         </Route>
         <Route path="*" element={<ErrorElement/>} errorElement={<ErrorElement />} />
       </Route>,
     ])
   )
   return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme,adminTheme, setAdminTheme }}>
           <AlertContext.Provider value={{ alert, setAlert }}>
             <CartContext.Provider value={{ cart,setCart }}>
               <RouterProvider router={router}></RouterProvider>
