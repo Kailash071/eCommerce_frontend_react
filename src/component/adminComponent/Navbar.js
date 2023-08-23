@@ -19,7 +19,7 @@ const Navbar = () => {
         }
       }
     return (
-        <nav className={`navbar navbar-expand-lg  sticky-top bg-`+adminTheme} data-bs-theme={adminTheme}>
+        <nav className={`navbar navbar-expand-lg sticky-top bg-`+adminTheme} data-bs-theme={adminTheme}>
           <div className="container-fluid">
             <NavLink className="navbar-brand" to="/admin/dashboard">
               ShopNow-Admin

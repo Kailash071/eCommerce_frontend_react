@@ -29,6 +29,9 @@ import AdminLogin from "./component/adminComponent/Login"
 import Dashboard from "./component/adminComponent/Dashboard"
 import AdminBodyLayout from "./component/adminComponent/AdminBodyLayout"
 import AdminAuthLayout from "./component/adminComponent/AdminAuthLayout"
+import ProductList from "./component/adminComponent/ProductList"
+import UserList from "./component/adminComponent/UserList"
+import OrderList from "./component/adminComponent/OrderList"
 // register Swiper custom elements
 register()
 
@@ -77,6 +80,9 @@ function App() {
           </Route>
           <Route element={<AdminAuthLayout />} errorElement={<ErrorElement />}>
             <Route path="dashboard" element={<Dashboard/>} />
+            <Route path="products" element={<ProductList/>}/>
+            <Route path="users" element={<UserList/>}/>
+            <Route path="orders" element={<OrderList/>}/>
           </Route>
         </Route>
         <Route path="*" element={<ErrorElement/>} errorElement={<ErrorElement />} />

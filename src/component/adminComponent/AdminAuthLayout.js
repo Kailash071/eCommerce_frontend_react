@@ -1,6 +1,7 @@
 import React from 'react'
 import Footer from './Footer';
 import Navbar from './Navbar';
+import SideBar from './SideBar'
 import Alert from '../Alert';
 import { Outlet } from 'react-router-dom';
 import {BallTriangle} from 'react-loader-spinner'
@@ -25,11 +26,16 @@ const AdminAuthLayout = () => {
             />
           ) : (
             <>
-              <div className={"container-fluid  theme-" + adminTheme}>
-              <Navbar />
-              {alert.show && <Alert message={alert.message} />}
-              <Outlet />
-              <Footer />
+              <div class={"container-fluid bg"+ adminTheme}>
+                <div class="row">
+                  <div class="col-12"><Navbar /></div>
+                  <div class="col-2"><SideBar/></div>
+                  <div class="col-10">
+                   {alert.show && <Alert message={alert.message} />}
+                   <Outlet />
+                  </div>
+                 <Footer />
+                </div>
               </div>
             </>
           )}
