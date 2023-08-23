@@ -26,17 +26,20 @@ const AdminAuthLayout = () => {
             />
           ) : (
             <>
-              <div class={"container-fluid bg"+ adminTheme}>
-                <div class="row">
-                  <div class="col-12"><Navbar /></div>
-                  <div class="col-2"><SideBar/></div>
-                  <div class="col-10">
-                   {alert.show && <Alert message={alert.message} />}
+              <div class={"container-fluid adminTheme-"+ adminTheme}>
+                <div class="d-flex flex-column">
+                  <div class=""><Navbar /></div>
+                  <div class="d-flex flex-nowrap" style={{minHeight:"80.4vh"}}>
+                  {/* <div class="d-flex flex-nowrap"> */}
+                    <SideBar/>
+                   <div className={"d-flex flex-column w-100 pt-3"}>
+                    {alert.show && <Alert message={alert.message} />}
                    <Outlet />
+                   </div>
+                  </div>                  
                   </div>
                  <Footer />
                 </div>
-              </div>
             </>
           )}
         </>

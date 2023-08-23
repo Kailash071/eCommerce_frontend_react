@@ -1,19 +1,22 @@
+import { useContext } from 'react'
 import {React} from 'react'
+import ThemeContext from '../../context/ThemeContext'
 
 const Dashboard = ()=>{
+	const {adminTheme} = useContext(ThemeContext)
 	return (
 		<>		
-		<div class="container text-center">
-		  <div class="row">
-		    <div class="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
-		    <div class="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
+		<div className="container text-center">
+		  <div className="row">
+		    <div className="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
+		    <div className="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
 
-		    <div class="w-100 d-none d-md-block"></div>
+		    <div className="w-100 d-none d-md-block"></div>
 
-		    <div class="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
-		    <div class="col-6 col-sm-4 h-100">.col-6 .col-sm-4</div>
+		    <div className="col-6 col-sm-4 h-100">.col-6 .col-sm-4 h-100</div>
+		    <div className="col-6 col-sm-4 h-100">.col-6 .col-sm-4</div>
 		  </div>
-		  <table class="table">
+		  <table className={"table table-hover table-"+adminTheme}>
 			  <thead>
 			    <tr>
 			      <th scope="col">#</th>

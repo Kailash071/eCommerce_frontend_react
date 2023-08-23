@@ -6,7 +6,7 @@ function Footer() {
   return (
     <>
     {/* Footer */}
-    <footer className={`text-center text-lg-start bg-${adminTheme} border-top`}>
+    <footer className={`text-center text-lg-start border-top`}>
       {/* Copyright */}
       <div
         className="text-center p-4"

@@ -25,7 +25,7 @@ const AdminBodyLayout = () => {
             />
           ) : (
             <>
-              <div className={"container-fluid theme-" + adminTheme}>
+              <div className={"container-fluid adminTheme-" + adminTheme}>
               <Navbar />
               {alert.show && <Alert message={alert.message} />}
               <Outlet />

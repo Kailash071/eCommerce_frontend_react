@@ -1,19 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ThemeContext from '../../context/ThemeContext'
+import { useContext } from 'react'
 const UserList = () => {
+  const {adminTheme} = useContext(ThemeContext)
    return (
     <div className="container-fluid">
       <div className="mt-3 d-flex justify-content-between align-items-center">
         <h4>Users List</h4>
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><Link to="/admin/dashboard">Home</Link></li>
-            <li class="breadcrumb-item active" aria-current="page">UserList</li>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item"><Link to="/admin/dashboard">Home</Link></li>
+            <li className="breadcrumb-item active" aria-current="page">UserList</li>
           </ol>
         </nav>
       </div>
       <div className="userTable">
-        <table class="table">
+        <table className={"table table-hover table-"+adminTheme}>
           <thead>
             <tr>
               <th scope="col">#</th>
