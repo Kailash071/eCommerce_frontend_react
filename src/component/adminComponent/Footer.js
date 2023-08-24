@@ -1,8 +1,6 @@
-import {React,useContext} from 'react'
+import {React} from 'react'
 import { Link } from 'react-router-dom'
-import ThemeContext from "../../context/ThemeContext"
 function Footer() {
-    let{ adminTheme }= useContext(ThemeContext)
   return (
     <>
     {/* Footer */}

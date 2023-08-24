@@ -9,31 +9,14 @@ import ThemeContext from '../../context/ThemeContext';
 
 const AdminBodyLayout = () => {
     const {adminTheme} = useContext(ThemeContext)
-    let isLoading = false
     return (
-        <>
-          {isLoading ? (
-            <BallTriangle
-              height={50}
-              width={50}
-              radius={5}
-              color="#4fa94d"
-              ariaLabel="ball-triangle-loading"
-              wrapperClass={{}}
-              wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-              visible={true}
-            />
-          ) : (
             <>
               <div className={"container-fluid adminTheme-" + adminTheme}>
               <Navbar />
               {alert.show && <Alert message={alert.message} />}
               <Outlet />
-              <Footer />
               </div>
             </>
-          )}
-        </>
       );
 }
 

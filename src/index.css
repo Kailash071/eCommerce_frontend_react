@@ -58,13 +58,13 @@ input[type=number]::-webkit-outer-spin-button {
     border-color: rgba(var(--bs-dark-rgb),var(--bs-border-opacity))!important;
 }
 
-.adminTheme-dark,.adminTheme-dark .breadcrumb-item.active{
+.adminTheme-dark,.adminTheme-dark .card,.adminTheme-dark .breadcrumb-item.active{
   color: #FFFF!important;
   background-color: RGBA(33,37,41,var(--bs-bg-opacity,1))!important;
   --bs-border-opacity: 1;
   border-color: rgba(var(--bs-light-rgb),var(--bs-border-opacity))!important;
 }
-.adminTheme-light,.adminTheme-light .breadcrumb-item.active {
+.adminTheme-light,.adminTheme-light .card,.adminTheme-light .breadcrumb-item.active {
   color: #000!important;
   background-color: RGBA(248,249,250,var(--bs-bg-opacity,1))!important;
   --bs-border-opacity: 1;
