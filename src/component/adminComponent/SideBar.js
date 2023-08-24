@@ -16,19 +16,19 @@ function SideBar() {
           </li>
           <li>
             <NavLink to= '/admin/users' className="nav-link">
-               <span className="px-2"><i className="bi bi-house-fill"></i></span>
+               <span className="px-2"><i className="bi bi-person-fill"></i></span>
               Users
             </NavLink>
           </li>
           <li>
             <NavLink to= '/admin/products' className="nav-link">
-               <span className="px-2"><i className="bi bi-house-fill"></i></span>
+               <span className="px-2"><i className="bi bi-boxes"></i></span>
               Products
             </NavLink>
           </li>
           <li>
             <NavLink to= '/admin/orders' className="nav-link">
-               <span className="px-2"><i className="bi bi-house-fill"></i></span>
+               <span className="px-2"><i className="bi bi-bag-fill"></i></span>
               Orders
             </NavLink>
           </li>

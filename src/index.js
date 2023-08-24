@@ -8,9 +8,11 @@ import { Provider } from "react-redux"
 import { productsApiSlice } from './reducers/productsSlice';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { categorysApiSlice } from './reducers/categorySlice';
+import { adminUsersApiSlice } from './reducers/adminUsersSlice';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate())
 store.dispatch(categorysApiSlice.endpoints.getCategorys.initiate())
+store.dispatch(adminUsersApiSlice.endpoints.getUsers.initiate())
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -2,7 +2,7 @@ import {React,useContext,useEffect} from 'react'
 import Footer from './Footer';
 import Navbar from './Navbar';
 import SideBar from './SideBar'
-import Alert from '../Alert';
+import Alert from './Alert';
 import { Outlet,useNavigate } from 'react-router-dom';
 import {BallTriangle} from 'react-loader-spinner'
 import ThemeContext from '../../context/ThemeContext';

@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from './Footer';
 import Navbar from './Navbar';
-import Alert from '../Alert';
+import Alert from './Alert';
 import { Outlet } from 'react-router-dom';
 import {BallTriangle} from 'react-loader-spinner'
 import { useContext } from 'react';
